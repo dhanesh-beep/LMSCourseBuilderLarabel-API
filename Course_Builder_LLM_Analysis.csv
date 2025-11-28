@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 chatflow_id,timestamp,pdf_file_name,Course_title,duration_sec,PDF_pages_Counts,input_tokens,output_tokens,total_sections,total_widgets,Image_counts,quiz_count,quiz_countquiz_ids,quiz_question_counts,quiz_single_count,quiz_multiple_count,grounding_score,completeness_score,response_length_balance,context_token_overlap,overall_score,justification
 9b692563-f28b-4e62-bd9f-58c080d7014e,27-11-2025 10:59,it-acceptable-use-policy_short,IT Acceptable Use Policy Training Course,365.5,3,1418,11158,3,10,2,7,1|2|3|4|5|6|7,3|5|5|5|7|5|11,25,16,98,94,97,92,95.25,"""The course content is exceptionally well-grounded in the source IT Acceptable Use Policy document, with all key concepts, requirements, and prohibitions accurately represented and expanded into learner-friendly educational content. Completeness is high, with comprehensive coverage of policy purpose, scope, prohibited activities, personal device restrictions, access management, password security, and incident response procedures. Each lesson contains multiple sections with detailed explanations, practical examples, learning tips, and assessment questions. Response length balance is strong, with each section providing sufficient detail without being overly verbose, maintaining engagement while ensuring thorough understanding. Context token overlap is excellent, as the course extensively incorporates and explains core concepts from the source document including ownership rights, monitoring practices, prohibited activities, role-based access, password confidentiality, and compromise response protocols. The content successfully transforms policy language into instructional material while preserving all critical information and requirements. Minor deductions reflect opportunities for even more varied examples across different user scenarios, though the current content is comprehensive and highly effective for training purposes."""
 ,,,,,,,,,,,,,,,,,,,,,
@@ -16,3 +17,23 @@ chatflow_id,timestamp,pdf_file_name,Course_title,duration_sec,PDF_pages_Counts,i
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
+=======
+chatflow_id,timestamp,pdf_file_name,Course_title,duration_sec,PDF_pages_Counts,input_tokens,output_tokens,total_sections,total_widgets,Image_counts,quiz_count,quiz_countquiz_ids,quiz_question_counts,quiz_single_count,quiz_multiple_count,grounding_score,completeness_score,response_length_balance,context_token_overlap,overall_score,justification
+9b692563-f28b-4e62-bd9f-58c080d7014e,27-11-2025 10:59,it-acceptable-use-policy_short,IT Acceptable Use Policy Training Course,365.5,3,1418,11158,3,10,2,7,1|2|3|4|5|6|7,3|5|5|5|7|5|11,25,16,98,94,97,92,95.25,"""The course content is exceptionally well-grounded in the source IT Acceptable Use Policy document, with all key concepts, requirements, and prohibitions accurately represented and expanded into learner-friendly educational content. Completeness is high, with comprehensive coverage of policy purpose, scope, prohibited activities, personal device restrictions, access management, password security, and incident response procedures. Each lesson contains multiple sections with detailed explanations, practical examples, learning tips, and assessment questions. Response length balance is strong, with each section providing sufficient detail without being overly verbose, maintaining engagement while ensuring thorough understanding. Context token overlap is excellent, as the course extensively incorporates and explains core concepts from the source document including ownership rights, monitoring practices, prohibited activities, role-based access, password confidentiality, and compromise response protocols. The content successfully transforms policy language into instructional material while preserving all critical information and requirements. Minor deductions reflect opportunities for even more varied examples across different user scenarios, though the current content is comprehensive and highly effective for training purposes."""
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+>>>>>>> 8a6201f6f20b04600ad206abf25c000579b32c01
