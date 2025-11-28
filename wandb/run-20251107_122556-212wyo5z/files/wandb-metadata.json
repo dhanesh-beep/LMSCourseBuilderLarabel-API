@@ -1,0 +1,34 @@
+{
+  "os": "Windows-11-10.0.26100-SP0",
+  "python": "CPython 3.13.9",
+  "startedAt": "2025-11-07T06:55:56.259106Z",
+  "program": "d:\\LMS Chatbot\\pdf-extractor-api\\wan_db_testing.py",
+  "codePath": "wan_db_testing.py",
+  "codePathLocal": "wan_db_testing.py",
+  "email": "dhanesh@eligocs.com",
+  "root": "D:\\LMS Chatbot\\pdf-extractor-api",
+  "host": "EligoCS",
+  "executable": "C:\\Users\\eligo\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+  "cpu_count": 6,
+  "cpu_count_logical": 12,
+  "gpu": "GeForce GT 710",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "342698749952",
+      "used": "10857992192"
+    }
+  },
+  "memory": {
+    "total": "17026105344"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "GeForce GT 710",
+      "architecture": "Kepler",
+      "uuid": "GPU-e50926c2-18d6-a065-70f0-0d3813243ccd"
+    }
+  ],
+  "cudaVersion": "11.1",
+  "writerId": "b9s8jhoig1k8w9fsa5q6hafj59econ95"
+}

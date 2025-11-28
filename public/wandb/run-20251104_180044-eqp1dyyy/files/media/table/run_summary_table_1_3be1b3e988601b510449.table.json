@@ -1,0 +1,1 @@
+{"columns": ["timestamp", "run_name", "chatflow_id", "input_tokens", "output_tokens", "total_tokens", "duration_sec", "total_lessons", "total_sections", "total_widgets"], "data": [["2025-11-04 18:00:50", "Flowise_v0_2025_11_04_12_30_40", "0ca67919-d561-4558-993c-0cc269ca19b6", 1418, 4233, 5651, 78.45, 4, 15, 0]]}

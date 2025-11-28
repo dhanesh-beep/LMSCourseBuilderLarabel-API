@@ -1,0 +1,372 @@
+{
+    "body": {
+        "title": "IT Acceptable Use Policy",
+        "description": "This course covers the Institution of Engineering and Technology's IT Acceptable Use Policy, explaining the responsibilities of all staff regarding the acceptable use of equipment and services provided by the IT & Digital Services Directorate.",
+        "lessons": [
+            {
+                "id": 1761118227590,
+                "title": "Introduction to the IT Acceptable Use Policy",
+                "description": "Learn about the purpose and scope of the IET's IT Acceptable Use Policy.",
+                "lesson_order": 1,
+                "sections": [
+                    {
+                        "title": "Section One: Why We Have This Policy",
+                        "section_order": 1,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "This document outlines the IET policy and procedure regarding the acceptable use of equipment and services provided by the IT & Digital Services Directorate in order for you to be able to carry out your role. The policy seeks to ensure that all employees, volunteers, contractors, and temporary staff understand their responsibilities with regard to IET equipment and services and provides direction to ensure standards are harmonised, fair, and consistent.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Two: Who This Policy Relates To",
+                        "section_order": 2,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "The Acceptable Use Policy applies to all employees, volunteers, contractors, and temporary staff (where they have been supplied access to IET IT services or systems). For the purposes of this document the term \"staff\" will be used to refer to all persons within scope.\n\nAll staff are required at all times to comply with the IET's Acceptable Use Policy. All users are contractually responsible for ensuring that they have read this policy and complete all mandatory data protection and security training.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "row_order": 2,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Any staff found to have acted or be acting in contrary to this policy may be subject to action under the Disciplinary, Suspension and Appeals Policies. Volunteers found to have acted or be acting contrary to this policy may be subject to action under the Disciplinary Regulations.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Three: Related Policies and Guidelines",
+                        "section_order": 3,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Other policies, procedures and/or guidelines you need to read in relation to this Policy include:\n\n• Disciplinary, Appeals and Suspension Policies\n• Disciplinary Regulations\n• Driving on Company Business policy\n• Display Screen Equipment Assessments\n• Information Security Policy\n• Data Protection Policy\n• Information Classification Policy and Retention Schedule\n• Third Party Data Protection and Security Due Diligence Risk Procedure\n• Personal Information Risk Management Procedure\n• Password Guidance",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 1761118227591,
+                "title": "Overview of the IT Acceptable Use Policy",
+                "description": "Understand the key aspects of the IT Acceptable Use Policy and the responsibilities of all staff.",
+                "lesson_order": 2,
+                "sections": [
+                    {
+                        "title": "Section One: Ownership and Monitoring",
+                        "section_order": 1,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "The IET is the legal owner of the systems and services provided to you in order to carry out your duties whilst on IET business. The IET retains the right to monitor and view usage, access, unencrypted & encrypted content, and any other files created, stored, sent, or received using any IET provided system. This access is undertaken for the purposes of security, regulatory or legal compliance maintenance and disciplinary purposes.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Two: Prohibited Activities",
+                        "section_order": 2,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "All staff are responsible for exercising good judgment regarding appropriate use of IET resources in accordance with all relevant IET policies, procedures, standards, and guidelines. IET resources may not be used for any unlawful or prohibited purpose; for example, but not limited to:\n\n• Accessing the IET's, or another organisation's services/systems for which you are not authorised.\n• Causing intentional disruption to either an IET, or another's, service(s) or intentionally introducing viruses, spyware, or any form of malware.\n• Breaching any statutory or regulatory requirements as laid out in relevant law, such as the UK GDPR or Computer Misuse Act.\n• Violating copyright law or international technology embargoes.\n• Publishing information or content of a defamatory, bullying, sexually explicit nature, that is likely to incite racial hatred or damage the reputation of the IET.\n• Excessive use for non-work related activities.\n• Engaging in commercial activities that do not relate to IET business.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Three: Device Usage and Other Policies",
+                        "section_order": 3,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "The use of personal devices (mobile phones, tablets, laptops, smart speakers etc) to access IET systems is prohibited. Access to IET systems should only be undertaken using IET approved equipment, unless operating under approved exception.\n\nPlease be aware that other systems or services that you may use during the course of your work may employ their own Acceptable Use Policies which must be adhered to and taken as supplementary to this policy.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 1761118227592,
+                "title": "Service Access and Password Management",
+                "description": "Learn about proper service access protocols and password management requirements at IET.",
+                "lesson_order": 3,
+                "sections": [
+                    {
+                        "title": "Section One: System Access",
+                        "section_order": 1,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Staff are provided with access to IET systems that are relevant to their role. If you require access to additional systems raise an IT Service Centre ticket outlining the reason for the access. Authorisation will be sought from your line manager and the owner of the system before access is granted. Where varying levels of access to systems are available, you will only be provided with the level necessary and relevant to your role.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Two: Account Security",
+                        "section_order": 2,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Staff are accountable for actions completed using their login credentials. Your computer must be locked whenever you are away from your desk to help prevent unauthorised access to IET systems and data.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Three: Password Management",
+                        "section_order": 3,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Staff are responsible for creating, keeping confidential and using appropriate passwords for accessing IET systems and services. Passwords must meet the criteria set out in the \"Password Guidance\" document referenced in section 3.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "row_order": 2,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "Never share a password with anyone, including managers, directors, system administrators, personal assistants etc. All passwords are to be treated as confidential IET information. It is unacceptable to provide your password to a colleague who is covering your work during holidays and other absences; no one should ever ask you for, nor should you ever divulge, your password(s).",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "row_order": 3,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "text",
+                                                "content": "If you suspect that your login or any password has been compromised, you must change your password immediately and report this to the IT Service Centre without delay.",
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Section Four: Assessment",
+                        "section_order": 4,
+                        "rows": [
+                            {
+                                "row_order": 1,
+                                "columns": [
+                                    {
+                                        "column_order": 1,
+                                        "width": 12,
+                                        "widgets": [
+                                            {
+                                                "type": "assignment",
+                                                "content": {
+                                                    "title": "IT Acceptable Use Policy Assessment",
+                                                    "description": "This assessment will test your understanding of the IET's IT Acceptable Use Policy.",
+                                                    "questions": [
+                                                        {
+                                                            "question": "Who does the IT Acceptable Use Policy apply to?",
+                                                            "type": "multiple_choice",
+                                                            "options": [
+                                                                "Only full-time employees",
+                                                                "Only IT staff",
+                                                                "All employees, volunteers, contractors, and temporary staff with access to IET IT services",
+                                                                "Only managers and directors"
+                                                            ],
+                                                            "correct_answer": "All employees, volunteers, contractors, and temporary staff with access to IET IT services"
+                                                        },
+                                                        {
+                                                            "question": "Is it acceptable to share your password with a colleague who is covering your work during holidays?",
+                                                            "type": "true_false",
+                                                            "correct_answer": false
+                                                        },
+                                                        {
+                                                            "question": "What should you do if you suspect your password has been compromised?",
+                                                            "type": "multiple_choice",
+                                                            "options": [
+                                                                "Do nothing, it's probably fine",
+                                                                "Tell your colleagues so they can be aware",
+                                                                "Change your password immediately and report to the IT Service Centre",
+                                                                "Wait until your next scheduled password change"
+                                                            ],
+                                                            "correct_answer": "Change your password immediately and report to the IT Service Centre"
+                                                        },
+                                                        {
+                                                            "question": "Can you use your personal device to access IET systems?",
+                                                            "type": "true_false",
+                                                            "correct_answer": false
+                                                        },
+                                                        {
+                                                            "question": "Who owns the systems and services provided to you for your role at IET?",
+                                                            "type": "multiple_choice",
+                                                            "options": [
+                                                                "You, as the user",
+                                                                "The IT & Digital Services Directorate",
+                                                                "The IET",
+                                                                "Your department"
+                                                            ],
+                                                            "correct_answer": "The IET"
+                                                        }
+                                                    ]
+                                                },
+                                                "widget_order": 1,
+                                                "is_required": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "meta": {
+        "timestamp": "2025-11-05 05:38:13",
+        "flowise_start": "2025-11-05 05:37:24",
+        "flowise_end": "2025-11-05 05:38:13",
+        "duration_sec": 48.63,
+        "input_tokens": 1418,
+        "output_tokens": 2513,
+        "total_lessons": 3,
+        "total_sections": 10,
+        "total_widgets": 0,
+        "chatflow_id": "0ca67919-d561-4558-993c-0cc269ca19b6"
+    }

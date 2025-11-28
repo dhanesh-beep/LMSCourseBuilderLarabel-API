@@ -1,0 +1,56 @@
+_wandb:
+    value:
+        cli_version: 0.22.3
+        e:
+            3pgwhuppbxsnyu4b5ayr2g1mdk51zhjb:
+                codePath: ..\wandb_logger.py
+                codePathLocal: ..\wandb_logger.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "11.1"
+                disk:
+                    /:
+                        total: "342698749952"
+                        used: "11006115840"
+                email: dhanesh@eligocs.com
+                executable: C:\Users\eligo\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe
+                gpu: GeForce GT 710
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Kepler
+                      name: GeForce GT 710
+                      uuid: GPU-e50926c2-18d6-a065-70f0-0d3813243ccd
+                host: EligoCS
+                memory:
+                    total: "17026105344"
+                os: Windows-11-10.0.26100-SP0
+                program: D:\LMS Chatbot\pdf-extractor-api\wandb_logger.py
+                python: CPython 3.13.9
+                root: D:\LMS Chatbot\pdf-extractor-api\public
+                startedAt: "2025-11-07T10:03:29.981058Z"
+                writerId: 3pgwhuppbxsnyu4b5ayr2g1mdk51zhjb
+        m: []
+        python_version: 3.13.9
+        t:
+            "1":
+                - 105
+            "2":
+                - 105
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.13.9
+            "5": 0.22.3
+            "8":
+                - 3
+            "12": 0.22.3
+            "13": windows-amd64
+Budget Tokens:
+    value: 4048
+LLM_Model_Name:
+    value: claude-4-5-sonnet-latest
+Max_token:
+    value: 64000
+Temp:
+    value: 0.5
