@@ -1,0 +1,557 @@
+{
+  "nodes": [
+    {
+      "id": "startAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": -147.5,
+        "y": 111.5
+      },
+      "data": {
+        "id": "startAgentflow_0",
+        "label": "Start",
+        "version": 1.1,
+        "name": "startAgentflow",
+        "type": "Start",
+        "color": "#7EE787",
+        "hideInput": true,
+        "baseClasses": [
+          "Start"
+        ],
+        "category": "Agent Flows",
+        "description": "Starting point of the agentflow",
+        "inputParams": [
+          {
+            "label": "Input Type",
+            "name": "startInputType",
+            "type": "options",
+            "options": [
+              {
+                "label": "Chat Input",
+                "name": "chatInput",
+                "description": "Start the conversation with chat input"
+              },
+              {
+                "label": "Form Input",
+                "name": "formInput",
+                "description": "Start the workflow with form inputs"
+              }
+            ],
+            "default": "chatInput",
+            "id": "startAgentflow_0-input-startInputType-options",
+            "display": true
+          },
+          {
+            "label": "Form Title",
+            "name": "formTitle",
+            "type": "string",
+            "placeholder": "Please Fill Out The Form",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formTitle-string",
+            "display": false
+          },
+          {
+            "label": "Form Description",
+            "name": "formDescription",
+            "type": "string",
+            "placeholder": "Complete all fields below to continue",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formDescription-string",
+            "display": false
+          },
+          {
+            "label": "Form Input Types",
+            "name": "formInputTypes",
+            "description": "Specify the type of form input",
+            "type": "array",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "array": [
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Options",
+                    "name": "options"
+                  }
+                ],
+                "default": "string"
+              },
+              {
+                "label": "Label",
+                "name": "label",
+                "type": "string",
+                "placeholder": "Label for the input"
+              },
+              {
+                "label": "Variable Name",
+                "name": "name",
+                "type": "string",
+                "placeholder": "Variable name for the input (must be camel case)",
+                "description": "Variable name must be camel case. For example: firstName, lastName, etc."
+              },
+              {
+                "label": "Add Options",
+                "name": "addOptions",
+                "type": "array",
+                "show": {
+                  "formInputTypes[$index].type": "options"
+                },
+                "array": [
+                  {
+                    "label": "Option",
+                    "name": "option",
+                    "type": "string"
+                  }
+                ]
+              }
+            ],
+            "id": "startAgentflow_0-input-formInputTypes-array",
+            "display": false
+          },
+          {
+            "label": "Ephemeral Memory",
+            "name": "startEphemeralMemory",
+            "type": "boolean",
+            "description": "Start fresh for every execution without past chat history",
+            "optional": true,
+            "id": "startAgentflow_0-input-startEphemeralMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Flow State",
+            "name": "startState",
+            "description": "Runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string",
+                "placeholder": "Foo"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "placeholder": "Bar",
+                "optional": true
+              }
+            ],
+            "id": "startAgentflow_0-input-startState-array",
+            "display": true
+          },
+          {
+            "label": "Persist State",
+            "name": "startPersistState",
+            "type": "boolean",
+            "description": "Persist the state in the same session",
+            "optional": true,
+            "id": "startAgentflow_0-input-startPersistState-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "startInputType": "chatInput",
+          "formTitle": "",
+          "formDescription": "",
+          "formInputTypes": "",
+          "startEphemeralMemory": "",
+          "startState": "",
+          "startPersistState": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "startAgentflow_0-output-startAgentflow",
+            "label": "Start",
+            "name": "startAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 103,
+      "height": 65,
+      "positionAbsolute": {
+        "x": -147.5,
+        "y": 111.5
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "llmAgentflow_0",
+      "position": {
+        "x": -9.5,
+        "y": 107.25
+      },
+      "data": {
+        "id": "llmAgentflow_0",
+        "label": "Course Builder Agant ",
+        "version": 1,
+        "name": "llmAgentflow",
+        "type": "LLM",
+        "color": "#64B5F6",
+        "baseClasses": [
+          "LLM"
+        ],
+        "category": "Agent Flows",
+        "description": "Large language models to analyze user-provided inputs and generate responses",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "llmModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "llmAgentflow_0-input-llmModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "llmMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmMessages-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "llmEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "llmAgentflow_0-input-llmEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "llmMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "llmEnableMemory": true
+            },
+            "id": "llmAgentflow_0-input-llmMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Window Size",
+            "name": "llmMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "llmMemoryType": "windowSize"
+            },
+            "id": "llmAgentflow_0-input-llmMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "llmMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "llmMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "llmAgentflow_0-input-llmMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "llmUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "llmEnableMemory": true
+            },
+            "id": "llmAgentflow_0-input-llmUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "llmReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "llmAgentflow_0-input-llmReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "JSON Structured Output",
+            "name": "llmStructuredOutput",
+            "description": "Instruct the LLM to give output in a JSON structured schema",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string"
+              },
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "String Array",
+                    "name": "stringArray"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Enum",
+                    "name": "enum"
+                  },
+                  {
+                    "label": "JSON Array",
+                    "name": "jsonArray"
+                  }
+                ]
+              },
+              {
+                "label": "Enum Values",
+                "name": "enumValues",
+                "type": "string",
+                "placeholder": "value1, value2, value3",
+                "description": "Enum values. Separated by comma",
+                "optional": true,
+                "show": {
+                  "llmStructuredOutput[$index].type": "enum"
+                }
+              },
+              {
+                "label": "JSON Schema",
+                "name": "jsonSchema",
+                "type": "code",
+                "placeholder": "{\n    \"answer\": {\n        \"type\": \"string\",\n        \"description\": \"Value of the answer\"\n    },\n    \"reason\": {\n        \"type\": \"string\",\n        \"description\": \"Reason for the answer\"\n    },\n    \"optional\": {\n        \"type\": \"boolean\"\n    },\n    \"count\": {\n        \"type\": \"number\"\n    },\n    \"children\": {\n        \"type\": \"array\",\n        \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"value\": {\n                    \"type\": \"string\",\n                    \"description\": \"Value of the children's answer\"\n                }\n            }\n        }\n    }\n}",
+                "description": "JSON schema for the structured output",
+                "optional": true,
+                "hideCodeExecute": true,
+                "show": {
+                  "llmStructuredOutput[$index].type": "jsonArray"
+                }
+              },
+              {
+                "label": "Description",
+                "name": "description",
+                "type": "string",
+                "placeholder": "Description of the key"
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmStructuredOutput-array",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "llmUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "llmModel": "chatAnthropic",
+          "llmMessages": [
+            {
+              "role": "system",
+              "content": "<p><strong>System:</strong><br>You are an intelligent Course Content Generator LLM.<br>Your function is to analyze uploaded educational text from <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span> to produce a complete and structured course in <strong>valid JSON format</strong>.</p><p><strong>Return Output JSON Schema Format:</strong><br>Strictly return in JSON structured output as mentioned in the JSON array output schema. Do not include any text outside JSON.<br><br><strong>Strict Generation Rules:</strong></p><ol><li><p><strong>Completeness:</strong> Always generate a full and coherent course. Partial or placeholder content is not allowed.</p></li><li><p><strong>Relevance:</strong> All lessons, sections, and widgets must be contextually based on the uploaded document and user query.</p></li><li><p><strong>Structure:</strong> Maintain the correct hierarchy — lessons → sections → rows → columns → widget</p></li><li><p><strong>Language Consistency:</strong> Use the same language as the uploaded document.</p></li><li><p><strong>Tone:</strong> Use clear, student-friendly, and instructional wording suitable for e-learning content. Avoid robotic or policy-style phrasing.</p></li><li><p><strong>No Document References:</strong></p><ul><li><p>Never use or mention phrases like <em>“This document outlines”</em>, <em>“According to this policy”</em>, or <em>“As stated in the report.”</em></p></li><li><p>Rewrite such lines naturally for learner use. Example:</p><ul><li><p>“This document outlines the safety rules.”</p></li><li><p>“This course explains the key safety rules followed in the workplace.”</p></li></ul></li></ul></li><li><p><strong>Lesson Counts and Lesson , Section Descriptions:</strong></p><ul><li><p>Created Lesson counts should match {Lesson_Counts}, using the expected Lesson Titles provided in the list {QUIZ_TITLES}. NOTE: the variables 'Lesson_Counts' and 'QUIZ_TITLES' are supplied in the User Query.</p></li></ul><ul><li><p>Each <strong>lesson</strong> and <strong>section</strong> must include a <strong>clear descriptive paragraph (minimum 20–30 words)</strong> explaining what the learner will gain or understand.</p></li></ul></li><li><p><strong>Examples &amp; Use Cases:</strong></p><ul><li><p>Include relevant <strong>examples</strong> or <strong>practical use cases</strong> where they help understanding (within widget text or description).</p></li><li><p>Examples should be brief and contextually relevant.</p></li></ul></li><li><p><strong>Learning Tips &amp; Questions:</strong></p><ul><li><p>After each section, include 2–3 <strong>learning tips, reflection questions, or True/False checks</strong> as text widgets.</p></li><li><p>For each question or statement, also include a <strong>short answer or explanation</strong> in the same widget 'text' only(do not create any other widget rather then 'text').</p></li><li><p>Example formats:</p><ul><li><p><code>\"Question: True or False — Helmets are optional in controlled areas. Answer: False. Helmets are mandatory for all field workers.\"</code></p></li><li><p><code>\"Question: What is the first step in a safety inspection? Answer: Identifying potential hazards.\"</code></p></li></ul></li></ul></li><li><p><strong>Output Format:</strong></p><ul><li><p>Strictly return <strong>valid JSON only</strong>, adhering exactly to the schema.</p></li><li><p>No text before or after the JSON.</p></li></ul></li><li><p><strong>Validation:</strong></p><ul><li><p>Ensure the final output is <strong>parsable JSON</strong> — no trailing commas, quotes, or formatting issues.<br><strong>JSON Schema:</strong> follow the JSON array<strong> shared in </strong>JSON Structured Output section.</p></li></ul></li><li><p><strong>QUIZ WIDGET INSTRUCTION</strong></p><h3><strong>- Add a Quiz Widget ONLY once per Lesson (</strong></h3><ul><li><p>Create <strong>exactly one quiz widget at the end of each lesson</strong>. Do <strong>NOT</strong> create quiz widgets per section.</p></li><li><p>The quiz widget must be placed at last of lesson:</p><ul><li><p>Inside the <strong>last section, </strong>Inside its <strong>last row,</strong>Inside its <strong>last column</strong></p></li><li><p>Appended at the end of the last <code>widgetas with type 'quiz'</code></p></li><li><p>in course quiz_id start from &lt;ADD_QUIZ_ID_number&gt; (ADD_QUIZ_ID_number given in last of user query text)</p></li></ul></li></ul><h3><strong>Quiz Widget Format</strong></h3><pre><code>{\n  \"column_id\": &lt;number&gt; (\"columns id where it placed\"),\n  \"type\": \"quiz\",\n  \"widget_order\": &lt;number&gt;(\"sequence order of the Widget\"),\n  \"is_required\": false,\n  \"quiz_id\": &lt;number&gt; (\"ADD_QUIZ_ID_number\")\n}</code></pre><h3><strong>Rules</strong></h3><ul><li><p>use ADD_QUIZ_ID_number number (given in user query text) to add in quiz_id</p></li></ul><ul><li><p><code>quiz_id</code> increases by +1 start from &lt;ADD_QUIZ_ID_number&gt;</p></li><li><p>Do not write quiz content/questions.</p></li><li><p>Add only metadata widget.</p></li></ul></li></ol><p>After generating the complete course JSON, evaluate the quality of your own generated output using the following four metrics.</p><p>Then, include a new key at the end of your returned JSON object called \"evaluation_matrix\" containing numeric scores and short reasoning.</p><p>Evaluation Criteria (each out of 100 marks):</p><p>1. Grounding Score (0–100):</p><p>Measure how well the course content aligns with and is grounded in the source document or uploaded context.</p><p>2. Completeness Score (0–100):</p><p>Evaluate whether all sections, lessons, widgets, examples, and assessments are fully covered and logically connected.</p><p>Missing or shallow explanations lower this score.</p><p>3. Response Length Balance (0–100):</p><p>Check if each lesson and section maintains an appropriate balance between brevity and detail.</p><p>Penalize if content is too short (under-explained) or overly verbose.</p><p>4. Context Token Overlap (0–100):</p><p>Estimate how effectively the content reuses and integrates core ideas, keywords, or concepts from the uploaded context text.</p><p>High overlap with relevant context = higher score; random or unrelated additions = lower score.</p><p>At the end of the JSON, add evaluation_matrix as additonal key:</p><p>\"evaluation_matrix\": {</p><p>\"grounding_score\": 0–100,</p><p>\"completeness_score\": 0–100,</p><p>\"response_length_balance\": 0–100,</p><p>\"context_token_overlap\": 0–100,</p><p>\"overall_score\": average of all above,</p><p>\"justification\": \"Short explanation of how the scores were derived.\"</p><p>}</p><p>Important:</p><p>- Always include the evaluation_matrix as the last JSON key.</p><p>- Do not output anything outside JSON.</p><p>- Maintain valid JSON syntax.</p><p><strong>Example JSON Return:</strong><br>{</p><p>\"title\": \"Workplace Health &amp; Safety Essentials\",</p><p>\"description\": \"A learner-focused course covering core health, safety, and environmental practices, risk awareness, and everyday controls to keep people and facilities safe.\",</p><p>\"lessons\": [</p><p>{</p><p>\"title\": \"Workplace Health &amp; Safety Essentials\",</p><p>\"description\": \"A learner-focused course covering core health, safety, and environmental practices, risk awareness, and everyday controls to keep people and facilities safe.\",</p><p>\"lessons\": [</p><p>{</p><p>\"id\": 1761118227590,</p><p>\"title\": \"Lesson 1: Foundations of HSE\",</p><p>\"description\": \"This lesson introduces foundational HSE concepts, including hazard recognition, basic risk controls, and the importance of a safety-focused mindset for every worker.\",</p><p>\"lesson_order\": 1,</p><p>\"sections\": [</p><p>{</p><p>\"title\": \"Section 1: What is HSE and Why It Matters\",</p><p>\"description\": \"This section explains the role of HSE in protecting people and the environment, and how daily safe practices reduce incidents and improve workplace reliability.\",</p><p>\"section_order\": 1,</p><p>\"rows\": [</p><p>{</p><p>\"row_order\": 1,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 101,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1011\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 1,</p><p>\"is_required\": false,</p><p>\"content\": \"HSE (Health, Safety &amp; Environment) aims to prevent harm by identifying hazards and applying controls. Practical actions include using correct PPE, following safe procedures, and reporting unsafe conditions immediately.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 2,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 101,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1012\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 2,</p><p>\"is_required\": false,</p><p>\"content\": \"Learning Tip: Before starting any task, take 60 seconds to scan for hazards. Note slippery surfaces, loose guards, and poorly stored materials, and act to control or report them before work proceeds.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 3,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 101,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1013\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 3,</p><p>\"is_required\": false,</p><p>\"content\": \"Question: True or False — You should ignore minor near-misses if nobody is hurt. Answer: False. Near-miss reports are critical for identifying latent hazards and preventing serious incidents.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"title\": \"Section 2: Building a Safety Mindset\",</p><p>\"description\": \"This section presents practical behaviors that develop safety leadership and team responsibility, from peer checks to clear reporting channels and continual improvement routines.\",</p><p>\"section_order\": 2,</p><p>\"rows\": [</p><p>{</p><p>\"row_order\": 1,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 102,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1021\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 1,</p><p>\"is_required\": false,</p><p>\"content\": \"A safety mindset means proactively spotting risks and influencing others positively. Short toolbox talks and consistent safety habits reduce everyday incidents.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 2,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 102,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1022\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 2,</p><p>\"is_required\": false,</p><p>\"content\": \"Learning Tip: Lead by example—always follow checklists and speak up if you see a risky action. Encouraging others to do the same builds a stronger safety culture.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 3,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 102,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1023\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 3,</p><p>\"is_required\": false,</p><p>\"content\": \"Question: How would you report a potential ergonomic hazard? Answer: Describe the task, note symptoms or risk factors, and notify your supervisor or safety representative.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 4,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 102,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w1024\",</p><p>\"type\": \"quiz\",</p><p>\"widget_order\": 4,</p><p>\"is_required\": false,</p><p>\"quiz_id\": 11</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 1761118227591,</p><p>\"title\": \"Lesson 2: Hazard Identification &amp; Risk Control\",</p><p>\"description\": \"This lesson focuses on identifying common workplace hazards, assessing risk levels, and selecting appropriate controls to reduce likelihood and severity of incidents.\",</p><p>\"lesson_order\": 2,</p><p>\"sections\": [</p><p>{</p><p>\"title\": \"Section 1: Identifying Common Hazards\",</p><p>\"description\": \"Covers physical, chemical, ergonomic, and environmental hazards with examples and guidance to help workers recognize issues before injuries occur.\",</p><p>\"section_order\": 1,</p><p>\"rows\": [</p><p>{</p><p>\"row_order\": 1,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 201,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2011\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 1,</p><p>\"is_required\": false,</p><p>\"content\": \"Common hazards include slips, trips, falls, electrical faults, chemical exposure, and repetitive strain. Conduct daily inspections to detect hazards early.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 2,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 201,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2012\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 2,</p><p>\"is_required\": false,</p><p>\"content\": \"Learning Tip: Use a checklist to verify guards, cable routing, and floor condition before using tools or machinery.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 3,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 201,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2013\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 3,</p><p>\"is_required\": false,</p><p>\"content\": \"Question: True or False — Repetitive tasks cannot cause injury over time. Answer: False.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"title\": \"Section 2: Risk Assessment &amp; Controls\",</p><p>\"description\": \"Explains risk assessment steps and examples of engineering, administrative, and PPE controls to reduce exposure.\",</p><p>\"section_order\": 2,</p><p>\"rows\": [</p><p>{</p><p>\"row_order\": 1,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 202,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2021\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 1,</p><p>\"is_required\": false,</p><p>\"content\": \"Risk assessment prioritizes hazards by likelihood and consequence. Engineering controls are preferred to PPE wherever practical.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 2,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 202,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2022\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 2,</p><p>\"is_required\": false,</p><p>\"content\": \"Learning Tip: Apply controls using the hierarchy — Eliminate, Substitute, Engineer, Administrative, PPE.\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 3,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 202,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2023\",</p><p>\"type\": \"text\",</p><p>\"widget_order\": 3,</p><p>\"is_required\": false,</p><p>\"content\": \"Question: What is the preferred hierarchy of controls? Answer: Eliminate → Substitute → Engineer → Administrative → PPE\"</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"row_order\": 4,</p><p>\"columns\": [</p><p>{</p><p>\"column_id\": 202,</p><p>\"column_order\": 1,</p><p>\"width\": 12,</p><p>\"widgets\": [</p><p>{</p><p>\"widget_id\": \"w2024\",</p><p>\"type\": \"quiz\",</p><p>\"widget_order\": 4,</p><p>\"is_required\": false,</p><p>\"quiz_id\": 12</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>],</p><p>\"evaluation_matrix\": {</p><p>\"grounding_score\": 92,</p><p>\"completeness_score\": 96,</p><p>\"response_length_balance\": 91,</p><p>\"context_token_overlap\": 94,</p><p>\"overall_score\": 93.25,</p><p>\"justification\": \"Content is well aligned with HSE learning goals and each widget is placed in its own row/column for predictable rendering.\"</p><p>}</p><p>}</p>"
+            }
+          ],
+          "llmEnableMemory": true,
+          "llmMemoryType": "allMessages",
+          "llmUserMessage": "",
+          "llmReturnResponseAs": "userMessage",
+          "llmStructuredOutput": [
+            {
+              "key": "answer",
+              "type": "jsonArray",
+              "enumValues": "",
+              "jsonSchema": "{\n    \"title\": \"string (Course title)\",\n    \"description\": \"string (HTML or plain text course description)\",\n    \"lessons\": [\n        {\n            \"id\": \"number (unique lesson identifier)\",\n            \"title\": \"string (Lesson title)\",\n            \"description\": \"string (Lesson description)\",\n            \"lesson_order\": \"number (Lesson order within course)\",\n            \"sections\": [\n                {\n                    \"title\": \"string (Section title)\",\n                    \"description\": \"string (Section description)\",\n                    \"section_order\": \"number (Section order within lesson)\",\n                    \"rows\": [\n                        {\n                            \"row_order\": \"number (Row sequence inside section)\",\n                            \"columns\": [\n                                {\n                                    \"column_id\": \"number (unique column identifier)\",\n                                    \"column_order\": \"number (Column order inside row set always 1)\",\n                                    \"width\": \"number (column width e.g., 12 full width)\",\n                                    \"widgets\": [\n                                        {\n                                            \"type\": \"text | image | video | quiz\",\n                                            \"content\": \"string (Text for 'text' type widgets. For image/video this may be optional URL/HTML or empty.)\",\n                                            \"widget_order\": \"number (Position of widget inside column)\",\n                                            \"is_required\": \"boolean (Whether widget completion/interaction required)\",\n                                            \"quiz_id\": \"number (Only present when type='quiz')\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        }\n    ],\n    \"evaluation_matrix\": {\n        \"grounding_score\": \"number\",\n        \"completeness_score\": \"number\",\n        \"response_length_balance\": \"number\",\n        \"context_token_overlap\": \"number\",\n        \"overall_score\": \"number\",\n        \"justification\": \"string\"\n    }\n}",
+              "description": "use This JSON schema for return Stractured JSON Output"
+            },
+            {
+              "key": "performance_metrix",
+              "type": "jsonArray",
+              "enumValues": "",
+              "jsonSchema": "{\"grounding_score\": number(out of 100),\n  \"completeness_score\": number(out of 100),\n  \"response_length_balance\": number(out of 100),\n  \"context_token_overlap\": number(out of 100),\n  \"overall_score\": number(out of 100),\n  \"justification\": text(justification based on the Course created by LLm and evaluation marix scoring)\n  }",
+              "description": "use this Json schema for return performance_metrix "
+            }
+          ],
+          "llmUpdateState": "",
+          "llmModelConfig": {
+            "cache": "",
+            "modelName": "claude-sonnet-4-5",
+            "temperature": "0.5",
+            "streaming": true,
+            "maxTokensToSample": "64000",
+            "topP": "",
+            "topK": "",
+            "extendedThinking": "",
+            "budgetTokens": "4048",
+            "allowImageUploads": "",
+            "llmModel": "chatAnthropic"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "llmAgentflow_0-output-llmAgentflow",
+            "label": "LLM",
+            "name": "llmAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 212,
+      "height": 71,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -9.5,
+        "y": 107.25
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "llmAgentflow_0",
+      "targetHandle": "llmAgentflow_0",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#64B5F6",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-llmAgentflow_0-llmAgentflow_0"
+    }
+  ]
+}

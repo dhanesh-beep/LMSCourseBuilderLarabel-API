@@ -1,0 +1,552 @@
+{
+  "nodes": [
+    {
+      "id": "startAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": 100.2996874649997,
+        "y": 104.67764503891723
+      },
+      "data": {
+        "id": "startAgentflow_0",
+        "label": "Start",
+        "version": 1.1,
+        "name": "startAgentflow",
+        "type": "Start",
+        "color": "#7EE787",
+        "hideInput": true,
+        "baseClasses": [
+          "Start"
+        ],
+        "category": "Agent Flows",
+        "description": "Starting point of the agentflow",
+        "inputParams": [
+          {
+            "label": "Input Type",
+            "name": "startInputType",
+            "type": "options",
+            "options": [
+              {
+                "label": "Chat Input",
+                "name": "chatInput",
+                "description": "Start the conversation with chat input"
+              },
+              {
+                "label": "Form Input",
+                "name": "formInput",
+                "description": "Start the workflow with form inputs"
+              }
+            ],
+            "default": "chatInput",
+            "id": "startAgentflow_0-input-startInputType-options",
+            "display": true
+          },
+          {
+            "label": "Form Title",
+            "name": "formTitle",
+            "type": "string",
+            "placeholder": "Please Fill Out The Form",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formTitle-string",
+            "display": false
+          },
+          {
+            "label": "Form Description",
+            "name": "formDescription",
+            "type": "string",
+            "placeholder": "Complete all fields below to continue",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "id": "startAgentflow_0-input-formDescription-string",
+            "display": false
+          },
+          {
+            "label": "Form Input Types",
+            "name": "formInputTypes",
+            "description": "Specify the type of form input",
+            "type": "array",
+            "show": {
+              "startInputType": "formInput"
+            },
+            "array": [
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Options",
+                    "name": "options"
+                  }
+                ],
+                "default": "string"
+              },
+              {
+                "label": "Label",
+                "name": "label",
+                "type": "string",
+                "placeholder": "Label for the input"
+              },
+              {
+                "label": "Variable Name",
+                "name": "name",
+                "type": "string",
+                "placeholder": "Variable name for the input (must be camel case)",
+                "description": "Variable name must be camel case. For example: firstName, lastName, etc."
+              },
+              {
+                "label": "Add Options",
+                "name": "addOptions",
+                "type": "array",
+                "show": {
+                  "formInputTypes[$index].type": "options"
+                },
+                "array": [
+                  {
+                    "label": "Option",
+                    "name": "option",
+                    "type": "string"
+                  }
+                ]
+              }
+            ],
+            "id": "startAgentflow_0-input-formInputTypes-array",
+            "display": false
+          },
+          {
+            "label": "Ephemeral Memory",
+            "name": "startEphemeralMemory",
+            "type": "boolean",
+            "description": "Start fresh for every execution without past chat history",
+            "optional": true,
+            "id": "startAgentflow_0-input-startEphemeralMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Flow State",
+            "name": "startState",
+            "description": "Runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string",
+                "placeholder": "Foo"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "placeholder": "Bar",
+                "optional": true
+              }
+            ],
+            "id": "startAgentflow_0-input-startState-array",
+            "display": true
+          },
+          {
+            "label": "Persist State",
+            "name": "startPersistState",
+            "type": "boolean",
+            "description": "Persist the state in the same session",
+            "optional": true,
+            "id": "startAgentflow_0-input-startPersistState-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "startInputType": "chatInput",
+          "formTitle": "",
+          "formDescription": "",
+          "formInputTypes": "",
+          "startEphemeralMemory": "",
+          "startState": "",
+          "startPersistState": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "startAgentflow_0-output-startAgentflow",
+            "label": "Start",
+            "name": "startAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 103,
+      "height": 65,
+      "positionAbsolute": {
+        "x": 100.2996874649997,
+        "y": 104.67764503891723
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "llmAgentflow_0",
+      "position": {
+        "x": 258.51420714002296,
+        "y": 101.44357979942433
+      },
+      "data": {
+        "id": "llmAgentflow_0",
+        "label": "Quiz Creator Agent",
+        "version": 1,
+        "name": "llmAgentflow",
+        "type": "LLM",
+        "color": "#64B5F6",
+        "baseClasses": [
+          "LLM"
+        ],
+        "category": "Agent Flows",
+        "description": "Large language models to analyze user-provided inputs and generate responses",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "llmModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "llmAgentflow_0-input-llmModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "llmMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "Developer",
+                    "name": "developer"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmMessages-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "llmEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "llmAgentflow_0-input-llmEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "llmMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages",
+                "description": "Retrieve all messages from the conversation"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize",
+                "description": "Uses a fixed window size to surface the last N messages"
+              },
+              {
+                "label": "Conversation Summary",
+                "name": "conversationSummary",
+                "description": "Summarizes the whole conversation"
+              },
+              {
+                "label": "Conversation Summary Buffer",
+                "name": "conversationSummaryBuffer",
+                "description": "Summarize conversations once token limit is reached. Default to 2000"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "llmEnableMemory": true
+            },
+            "id": "llmAgentflow_0-input-llmMemoryType-options",
+            "display": false
+          },
+          {
+            "label": "Window Size",
+            "name": "llmMemoryWindowSize",
+            "type": "number",
+            "default": "20",
+            "description": "Uses a fixed window size to surface the last N messages",
+            "show": {
+              "llmMemoryType": "windowSize"
+            },
+            "id": "llmAgentflow_0-input-llmMemoryWindowSize-number",
+            "display": false
+          },
+          {
+            "label": "Max Token Limit",
+            "name": "llmMemoryMaxTokenLimit",
+            "type": "number",
+            "default": "2000",
+            "description": "Summarize conversations once token limit is reached. Default to 2000",
+            "show": {
+              "llmMemoryType": "conversationSummaryBuffer"
+            },
+            "id": "llmAgentflow_0-input-llmMemoryMaxTokenLimit-number",
+            "display": false
+          },
+          {
+            "label": "Input Message",
+            "name": "llmUserMessage",
+            "type": "string",
+            "description": "Add an input message as user message at the end of the conversation",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "llmEnableMemory": true
+            },
+            "id": "llmAgentflow_0-input-llmUserMessage-string",
+            "display": false
+          },
+          {
+            "label": "Return Response As",
+            "name": "llmReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "llmAgentflow_0-input-llmReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "JSON Structured Output",
+            "name": "llmStructuredOutput",
+            "description": "Instruct the LLM to give output in a JSON structured schema",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string"
+              },
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "String Array",
+                    "name": "stringArray"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  },
+                  {
+                    "label": "Enum",
+                    "name": "enum"
+                  },
+                  {
+                    "label": "JSON Array",
+                    "name": "jsonArray"
+                  }
+                ]
+              },
+              {
+                "label": "Enum Values",
+                "name": "enumValues",
+                "type": "string",
+                "placeholder": "value1, value2, value3",
+                "description": "Enum values. Separated by comma",
+                "optional": true,
+                "show": {
+                  "llmStructuredOutput[$index].type": "enum"
+                }
+              },
+              {
+                "label": "JSON Schema",
+                "name": "jsonSchema",
+                "type": "code",
+                "placeholder": "{\n    \"answer\": {\n        \"type\": \"string\",\n        \"description\": \"Value of the answer\"\n    },\n    \"reason\": {\n        \"type\": \"string\",\n        \"description\": \"Reason for the answer\"\n    },\n    \"optional\": {\n        \"type\": \"boolean\"\n    },\n    \"count\": {\n        \"type\": \"number\"\n    },\n    \"children\": {\n        \"type\": \"array\",\n        \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"value\": {\n                    \"type\": \"string\",\n                    \"description\": \"Value of the children's answer\"\n                }\n            }\n        }\n    }\n}",
+                "description": "JSON schema for the structured output",
+                "optional": true,
+                "hideCodeExecute": true,
+                "show": {
+                  "llmStructuredOutput[$index].type": "jsonArray"
+                }
+              },
+              {
+                "label": "Description",
+                "name": "description",
+                "type": "string",
+                "placeholder": "Description of the key"
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmStructuredOutput-array",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "llmUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys",
+                "freeSolo": true
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "llmAgentflow_0-input-llmUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "llmModel": "chatAnthropic",
+          "llmMessages": [
+            {
+              "role": "system",
+              "content": "<h3><strong>SYSTEM MESSAGE:</strong></h3><p>You are an AI Quiz Generator.</p><ul><li><p>If the user query text is invalid text/file, then handle and convert it into a valid text/file.</p></li><li><p>Your task is to create a lesson-based QUIZ from the user-provided query text <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span> .</p></li><li><p>The text contains multiple lessons, your task is to generate <strong>strict multiple quizzes for multiple lessons</strong>, <strong>one quiz per lesson</strong>, inside a <strong>single JSON response</strong>, following the strict quiz structure.</p></li></ul><h3><strong>QUIZ GENERATION RULES TO FOLLOW</strong></h3><h3><strong>1. One Quiz Per Lesson</strong></h3><ul><li><p>You MUST generate <strong>one quiz object for every lesson</strong> detected in the document.</p></li><li><p>Return all quizzes together under <code>data.quizzes</code>.</p></li><li><p>Quiz questions should be strictly based on the context of their respective lesson only.</p></li><li><p>Even if the lesson has very limited content → still create a quiz object.</p></li><li><p>Never merge multiple lessons into one quiz and Never skip a lesson.</p></li></ul><p><strong>2. QUESTION COUNT RULES:</strong></p><p>- Short lessons → minimum 5 questions (if content is too small).</p><p>- Medium lessons → 7-10 questions.</p><p>- Long lessons → 10–15 questions (max cap).</p><p>- If lesson text is insufficient, create fewer questions BUT never less than 3.</p><p><strong>3</strong>. <strong>QUIZ TITLE RULE:</strong></p><p>- Quiz title = <strong>Lesson title</strong> (exact or slightly refined).</p><p>- Each quiz must have a unique <code>\"quiz_id\"</code> and alway <code>quiz_id start</code> from number 1,</p><h3><strong>4. Hardcode Status Values</strong></h3><ul><li><p><code>\"status\": 200</code></p></li><li><p><code>\"response\": 200\"</code></p></li><li><p><code>\"message\": \"Quiz created successfully\"</code></p></li><li><p>Follow the <strong>exact JSON structure</strong> provided below.</p></li></ul><h3><strong>5. Quiz Format Rules</strong></h3><p>Each quiz must include:</p><ul><li><p><code>id</code> → unique quiz ID</p></li><li><p><code>title</code> → equals the lesson title</p></li><li><p><code>description</code> → 1-2 paragraph summary of the lesson</p></li><li><p><code>author</code> → \"AI Quiz Generator\"</p></li><li><p><code>passing_score</code> → integer (default = 3)</p></li><li><p><code>questions</code> → Each quiz must contain a minimum of 5 questions for short lessons and up to a maximum of 15 questions for longer lessons.”</p></li></ul><h3><strong>6. Question formate rules:</strong></h3><p>Each question must include:</p><ul><li><p><code>id</code> → question ID</p></li><li><p><code>quiz_id</code> → quiz ID it belongs to</p></li><li><p><code>question_title</code> → question text</p></li><li><p><code>question_type</code> → <code>\"single\"</code> OR <code>\"multiple\"</code></p></li><li><p><code>question_order</code> → numeric order (question sequence)</p></li></ul><h3><strong>Options</strong></h3><p>Each question contains <strong>3–4 options</strong>:</p><p>Each option includes:</p><ul><li><p><code>id</code></p></li><li><p><code>question_id</code></p></li><li><p><code>option_text</code></p></li><li><p><code>is_correct</code> → 1 or 0</p></li></ul><p>For <code>\"single\"</code> questions → only one option with <code>is_correct = 1</code><br>For <code>\"multiple\"</code> questions → multiple correct answers allowed</p><p><strong>7. OUTPUT RULE:</strong></p><p>- STRICTLY return <strong>only JSON</strong>.</p><p>- No explanation, no markdown, no extra text.</p><p>8. <strong>PERFORMANCE EVALUATION MATRIX RULES</strong></p><p>After generating the quizzes, you must evaluate your own output based on the following LLM performance dimensions and fill the <code>\"quiz_evaluation_matrix\"</code> object.</p><ol start=\"8\"><li><p></p><h3><strong>1. grounding_score (0–100)</strong></h3><ul><li><p>Measures how well the quiz questions are grounded in the content of the lesson.</p></li><li><p>High score = all questions strictly refer to lesson content.</p></li><li><p>Low score = questions introduce ideas NOT found in the lesson.</p></li></ul><h3><strong>2. accuracy_score (0–100)</strong></h3><ul><li><p>Measures factual correctness of the question and option content.</p></li><li><p>High score = correct representation of lesson facts.</p></li><li><p>Low score = incorrect facts, misinterpretations, or inconsistent statements.</p></li></ul><h3><strong>3. context_token_overlap (0–100)</strong></h3><ul><li><p>Measures how much of the generated quiz content overlaps with the original lesson.</p></li><li><p>High score = high semantic alignment and reuse of important tokens.</p></li><li><p>Low score = too generic, low overlap, or unrelated content.</p></li></ul><h3><strong>4. response_length_score (0–100)</strong></h3><ul><li><p>Measures whether the quiz length is appropriate based on the lesson length.</p></li><li><p>High score = number of questions is optimal (not too short or too long).</p></li><li><p>Low score = too many or too few questions according to lesson content.</p></li></ul><h3><strong>5. relevance_score (0–100)</strong></h3><ul><li><p>Measures whether the questions match the important ideas of the lesson.</p></li><li><p>High score = all questions relevant to key concepts.</p></li><li><p>Low score = questions focus on unimportant or unrelated details.</p></li></ul><h3><strong>6. evaluation_summary</strong></h3><ul><li><p>Short 1–2 line summary describing the overall performance of the Quiz Agent.</p></li><li><p>Must be concise and based on the scores above.</p></li></ul></li></ol><p><strong>EXAMPLE JSON OUTPUT:</strong></p><p>{</p><p>\"status\": 200,</p><p>\"response\": 200,</p><p>\"message\": \"Quiz created successfully\",</p><p>\"data\": {</p><p>\"quizzes\": [</p><p>{</p><p>\"id\": 1,</p><p>\"title\": \"Introduction to Workplace Safety\",</p><p>\"passing_score\": 3,</p><p>\"description\": \"&lt;p&gt;This quiz evaluates learner understanding of fundamental workplace safety concepts, including hazard types, responsibilities, basic PPE, and risk reduction methods.&lt;/p&gt;\",</p><p>\"author\": \"AI Quiz Generator\",</p><p>\"questions\": [</p><p>{</p><p>\"id\": 101,</p><p>\"quiz_id\": 1,</p><p>\"question_title\": \"Which of the following is considered a physical hazard?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"1\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 1001,</p><p>\"question_id\": 101,</p><p>\"option_text\": \"Extreme temperatures\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1002,</p><p>\"question_id\": 101,</p><p>\"option_text\": \"Chemical spill\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 1003,</p><p>\"question_id\": 101,</p><p>\"option_text\": \"Biological contamination\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 102,</p><p>\"quiz_id\": 1,</p><p>\"question_title\": \"Which responsibilities fall under the employer’s duty?\",</p><p>\"question_type\": \"multiple\",</p><p>\"question_order\": \"2\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 1004,</p><p>\"question_id\": 102,</p><p>\"option_text\": \"Providing safety training\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1005,</p><p>\"question_id\": 102,</p><p>\"option_text\": \"Maintaining safe equipment\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1006,</p><p>\"question_id\": 102,</p><p>\"option_text\": \"Ignoring minor hazards\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 103,</p><p>\"quiz_id\": 1,</p><p>\"question_title\": \"What is the primary purpose of PPE?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"3\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 1007,</p><p>\"question_id\": 103,</p><p>\"option_text\": \"To reduce risk of injury\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1008,</p><p>\"question_id\": 103,</p><p>\"option_text\": \"To replace all safety practices\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 1009,</p><p>\"question_id\": 103,</p><p>\"option_text\": \"To improve comfort\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 104,</p><p>\"quiz_id\": 1,</p><p>\"question_title\": \"Identify effective hazard control methods.\",</p><p>\"question_type\": \"multiple\",</p><p>\"question_order\": \"4\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 1010,</p><p>\"question_id\": 104,</p><p>\"option_text\": \"Elimination of hazard\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1011,</p><p>\"question_id\": 104,</p><p>\"option_text\": \"Engineering controls\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1012,</p><p>\"question_id\": 104,</p><p>\"option_text\": \"Ignoring hazard signs\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 105,</p><p>\"quiz_id\": 1,</p><p>\"question_title\": \"What should an employee do when noticing unsafe conditions?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"5\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 1013,</p><p>\"question_id\": 105,</p><p>\"option_text\": \"Report it immediately\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 1014,</p><p>\"question_id\": 105,</p><p>\"option_text\": \"Ignore it\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 1015,</p><p>\"question_id\": 105,</p><p>\"option_text\": \"Wait for someone else to act\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 2,</p><p>\"title\": \"Fire Safety and Emergency Procedures\",</p><p>\"passing_score\": 3,</p><p>\"description\": \"&lt;p&gt;This quiz assesses knowledge of fire classifications, extinguisher usage, evacuation steps, and emergency communication procedures.&lt;/p&gt;\",</p><p>\"author\": \"AI Quiz Generator\",</p><p>\"questions\": [</p><p>{</p><p>\"id\": 201,</p><p>\"quiz_id\": 2,</p><p>\"question_title\": \"What does Class A fire typically involve?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"1\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 2001,</p><p>\"question_id\": 201,</p><p>\"option_text\": \"Ordinary combustibles\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2002,</p><p>\"question_id\": 201,</p><p>\"option_text\": \"Flammable liquids\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 2003,</p><p>\"question_id\": 201,</p><p>\"option_text\": \"Electrical equipment\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 202,</p><p>\"quiz_id\": 2,</p><p>\"question_title\": \"Which steps are part of fire extinguisher usage (PASS)?\",</p><p>\"question_type\": \"multiple\",</p><p>\"question_order\": \"2\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 2004,</p><p>\"question_id\": 202,</p><p>\"option_text\": \"Pull the pin\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2005,</p><p>\"question_id\": 202,</p><p>\"option_text\": \"Aim at the base of the fire\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2006,</p><p>\"question_id\": 202,</p><p>\"option_text\": \"Spray randomly\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 203,</p><p>\"quiz_id\": 2,</p><p>\"question_title\": \"Which emergency action should be taken first when discovering a fire?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"3\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 2007,</p><p>\"question_id\": 203,</p><p>\"option_text\": \"Raise an alarm\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2008,</p><p>\"question_id\": 203,</p><p>\"option_text\": \"Run away silently\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 2009,</p><p>\"question_id\": 203,</p><p>\"option_text\": \"Switch off all alarms\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 204,</p><p>\"quiz_id\": 2,</p><p>\"question_title\": \"What is the correct evacuation behavior?\",</p><p>\"question_type\": \"multiple\",</p><p>\"question_order\": \"4\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 2010,</p><p>\"question_id\": 204,</p><p>\"option_text\": \"Follow exit signs\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2011,</p><p>\"question_id\": 204,</p><p>\"option_text\": \"Do not use elevators\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2012,</p><p>\"question_id\": 204,</p><p>\"option_text\": \"Panic and rush\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>},</p><p>{</p><p>\"id\": 205,</p><p>\"quiz_id\": 2,</p><p>\"question_title\": \"Which item is essential in emergency communication?\",</p><p>\"question_type\": \"single\",</p><p>\"question_order\": \"5\",</p><p>\"options\": [</p><p>{</p><p>\"id\": 2013,</p><p>\"question_id\": 205,</p><p>\"option_text\": \"Emergency contact list\",</p><p>\"is_correct\": 1</p><p>},</p><p>{</p><p>\"id\": 2014,</p><p>\"question_id\": 205,</p><p>\"option_text\": \"Music playlist\",</p><p>\"is_correct\": 0</p><p>},</p><p>{</p><p>\"id\": 2015,</p><p>\"question_id\": 205,</p><p>\"option_text\": \"Personal diary\",</p><p>\"is_correct\": 0</p><p>}</p><p>]</p><p>}</p><p>]</p><p>}</p><p>]</p><p>},</p><p>\"quiz_evaluation_matrix\": {</p><p>\"grounding_score\": 92.5,</p><p>\"accuracy_score\": 87,</p><p>\"context_token_overlap\": 78.3,</p><p>\"response_length_score\": 90,</p><p>\"relevance_score\": 95,</p><p>\"evaluation_summary\": \"Quiz generation is well-grounded, highly relevant, and mostly accurate with minimal hallucination.\"</p><p>}</p><p>}</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>based on text from user <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span> , create a lession bias quizz uisng following the system prompt.</p>"
+            }
+          ],
+          "llmEnableMemory": false,
+          "llmReturnResponseAs": "userMessage",
+          "llmStructuredOutput": [
+            {
+              "key": "quiz_answer",
+              "type": "jsonArray",
+              "enumValues": "",
+              "jsonSchema": "{\n    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"integer\"\n        },\n        \"response\": {\n            \"type\": \"integer\"\n        },\n        \"message\": {\n            \"type\": \"string\"\n        },\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"quizzes\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"id\": {\n                                \"type\": \"integer\"\n                            },\n                            \"title\": {\n                                \"type\": \"string\"\n                            },\n                            \"passing_score\": {\n                                \"type\": \"integer\"\n                            },\n                            \"description\": {\n                                \"type\": \"string\"\n                            },\n                            \"author\": {\n                                \"type\": \"string\"\n                            },\n                            \"questions\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"id\": {\n                                            \"type\": \"integer\"\n                                        },\n                                        \"quiz_id\": {\n                                            \"type\": \"integer\"\n                                        },\n                                        \"question_title\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"question_type\": {\n                                            \"type\": \"string\",\n                                            \"enum\": [\n                                                \"single\",\n                                                \"multiple\"\n                                            ]\n                                        },\n                                        \"question_order\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"options\": {\n                                            \"type\": \"array\",\n                                            \"items\": {\n                                                \"type\": \"object\",\n                                                \"properties\": {\n                                                    \"id\": {\n                                                        \"type\": \"integer\"\n                                                    },\n                                                    \"question_id\": {\n                                                        \"type\": \"integer\"\n                                                    },\n                                                    \"option_text\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"is_correct\": {\n                                                        \"type\": \"integer\",\n                                                        \"enum\": [\n                                                            0,\n                                                            1\n                                                        ]\n                                                    }\n                                                },\n                                                \"required\": [\n                                                    \"id\",\n                                                    \"question_id\",\n                                                    \"option_text\",\n                                                    \"is_correct\"\n                                                ]\n                                            }\n                                        }\n                                    },\n                                    \"required\": [\n                                        \"id\",\n                                        \"quiz_id\",\n                                        \"question_title\",\n                                        \"question_type\",\n                                        \"question_order\",\n                                        \"options\"\n                                    ]\n                                }\n                            }\n                        },\n                        \"required\": [\n                            \"id\",\n                            \"title\",\n                            \"passing_score\",\n                            \"description\",\n                            \"author\",\n                            \"questions\"\n                        ]\n                    }\n                }\n            },\n            \"required\": [\n                \"quizzes\"\n            ]\n        },\n\n        \"quiz_evaluation_matrix\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"grounding_score\": {\n                    \"type\": \"number\"\n                },\n                \"accuracy_score\": {\n                    \"type\": \"number\"\n                },\n                \"context_token_overlap\": {\n                    \"type\": \"number\"\n                },\n                \"response_length_score\": {\n                    \"type\": \"number\"\n                },\n                \"relevance_score\": {\n                    \"type\": \"number\"\n                },\n                \"evaluation_summary\": {\n                    \"type\": \"string\"\n                }\n            },\n            \"required\": [\n                \"grounding_score\",\n                \"accuracy_score\",\n                \"context_token_overlap\",\n                \"response_length_score\",\n                \"relevance_score\",\n                \"evaluation_summary\"\n            ]\n        }\n    },\n    \"required\": [\n        \"status\",\n        \"response\",\n        \"message\",\n        \"data\",\n        \"quiz_evaluation_matrix\"\n    ]\n}\n",
+              "description": "use This JSON schema for return Stractured JSON Output"
+            }
+          ],
+          "llmUpdateState": "",
+          "llmModelConfig": {
+            "cache": "",
+            "modelName": "claude-sonnet-4-5",
+            "temperature": "0.5",
+            "streaming": true,
+            "maxTokensToSample": "64000",
+            "topP": "",
+            "topK": "",
+            "extendedThinking": "",
+            "budgetTokens": "4096",
+            "allowImageUploads": "",
+            "llmModel": "chatAnthropic"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "llmAgentflow_0-output-llmAgentflow",
+            "label": "LLM",
+            "name": "llmAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "type": "agentFlow",
+      "width": 212,
+      "height": 71,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 258.51420714002296,
+        "y": 101.44357979942433
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "llmAgentflow_0",
+      "targetHandle": "llmAgentflow_0",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#64B5F6",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-llmAgentflow_0-llmAgentflow_0"
+    }
+  ]
+}
