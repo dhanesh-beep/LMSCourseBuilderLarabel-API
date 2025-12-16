@@ -51,11 +51,11 @@ class PdfExtractController extends ResponseController
 
             //-------------------------------------------------------------------------------------------
             // 1- 🧩 Flowise Call- for Quiz Creation
-            $chatflowId1 = env('FLOWISE_CHATFLOW_ID_QUIZ');
+            $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
             $apiHost = env('FLOWISE_API_HOST');
 
 
-            $chatflowId1 = env('FLOWISE_CHATFLOW_ID_QUIZ');
+            $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
             $apiHost = env('FLOWISE_API_HOST');
 
             $response = Http::timeout(env('FLOWISE_TIMEOUT', 900))
@@ -202,14 +202,14 @@ class PdfExtractController extends ResponseController
 
             //===================================================================================================================
             // 2🧩 Flowise Call- for Create Course
-            $chatflowId = env('FLOWISE_CHATFLOW_ID_COURSE');
+            $chatflowId2 = env('FLOWISE_AGENTFLOW_ID_COURSE');
 
             // $startTime = microtime(true);
             // $flowiseStart = Carbon::now();
 
             $response = Http::timeout(env('FLOWISE_TIMEOUT', 900))
                 ->connectTimeout(env('FLOWISE_CONNECT_TIMEOUT', 60))
-                ->post("$apiHost/api/v1/prediction/$chatflowId", [
+                ->post("$apiHost/api/v1/prediction/$chatflowId2", [
                     'question' => $cleaned_plus_start_quiz_id,
                 ]);
 
