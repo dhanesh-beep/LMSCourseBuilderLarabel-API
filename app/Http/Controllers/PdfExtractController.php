@@ -54,10 +54,6 @@ class PdfExtractController extends ResponseController
             $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
             $apiHost = env('FLOWISE_API_HOST');
 
-
-            $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
-            $apiHost = env('FLOWISE_API_HOST');
-
             $response = Http::timeout(env('FLOWISE_TIMEOUT', 900))
                 ->connectTimeout(env('FLOWISE_CONNECT_TIMEOUT', 60))
                 ->post("$apiHost/api/v1/prediction/$chatflowId1", [
