@@ -1,0 +1,596 @@
+{
+    "topics": [
+        {
+            "title": "BASICS",
+            "slug": "basics",
+            "topic_order": 1,
+            "is_published": true,
+            "lessons": [
+                {
+                    "title": "Lesson 1 : Lesson One",
+                    "lesson_order": 1,
+                    "slug": "lesson-1- lesson-one",
+                    "is_published": true,
+                    "sections": [
+                        {
+                            "title": "Section-1",
+                            "section_order": 1,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 1,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson covers the fundamental concepts and principles. You will learn the basics that form the foundation for more advanced topics. Understanding these core concepts is essential for your continued learning journey."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 2,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 2
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Section-2",
+                            "section_order": 2,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 3,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson covers the fundamental concepts and principles. You will learn the basics that form the foundation for more advanced topics. Understanding these core concepts is essential for your continued learning journey."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 4,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 1
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "topic_id": 1,
+                    "title": "Lesson 2 : Lesson Two",
+                    "lesson_order": 2,
+                    "slug": "lesson-2-lesson-two",
+                    "is_published": true,
+                    "sections": [
+                        {
+                            "title": "MANISH",
+                            "section_order": 1,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 5,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "In this lesson, we build upon the foundational knowledge from the previous lesson. You will explore intermediate concepts and practical applications that will help you understand how these principles work in real-world scenarios."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 6,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 1
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 4,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "NEHA",
+                            "section_order": 2,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 7,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "In this lesson, we build upon the foundational knowledge from the previous lesson. You will explore intermediate concepts and practical applications that will help you understand how these principles work in real-world scenarios."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 8,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 2
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "topic_id": 1,
+                    "title": "Lesson 3 : Lesson Three",
+                    "lesson_order": 3,
+                    "slug": "lesson-3-lesson-three",
+                    "is_published": true,
+                    "sections": [
+                        {
+                            "title": "SECTION-LONDON",
+                            "section_order": 1,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 195,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson delves deeper into advanced topics and complex scenarios. You will learn about sophisticated techniques and strategies that will enhance your understanding and practical skills."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 196,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 1
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "SECTION-PARIS",
+                            "section_order": 2,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 198,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson delves deeper into advanced topics and complex scenarios. You will learn about sophisticated techniques and strategies that will enhance your understanding and practical skills."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 199,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 2
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "ADVANCE",
+            "slug": "advance",
+            "topic_order": 2,
+            "is_published": true,
+            "lessons": [
+                {
+                    "topic_id": 2,
+                    "title": "Lesson 4 : Lesson Four",
+                    "lesson_order": 1,
+                    "slug": "lesson-4-lesson-four",
+                    "is_published": true,
+                    "sections": [
+                        {
+                            "title": "SECTION-GWALIOR",
+                            "section_order": 1,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 13,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson focuses on advanced applications and specialized knowledge. You will explore expert-level concepts and learn how to apply them effectively in various contexts."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 14,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 2
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "SECTION-MORENA",
+                            "section_order": 2,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 15,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson focuses on advanced applications and specialized knowledge. You will explore expert-level concepts and learn how to apply them effectively in various contexts."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "SECTION-BHIND",
+                            "section_order": 3,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 16,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson focuses on advanced applications and specialized knowledge. You will explore expert-level concepts and learn how to apply them effectively in various contexts."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 17,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 1
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "topic_id": 2,
+                    "title": "Lesson 5 : Lesson Five",
+                    "lesson_order": 2,
+                    "slug": "lesson-5-lesson-five",
+                    "is_published": true,
+                    "sections": [
+                        {
+                            "title": "SECTION-LONDON",
+                            "section_order": 1,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 100,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson covers expert-level topics and mastery concepts. You will learn advanced techniques and strategies that will help you achieve a comprehensive understanding of the subject matter."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 101,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 1
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "SECTION-PARIS",
+                            "section_order": 2,
+                            "is_published": true,
+                            "rows": [
+                                {
+                                    "row_order": 1,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 102,
+                                                "type": "text",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": null,
+                                                "content": "This lesson covers expert-level topics and mastery concepts. You will learn advanced techniques and strategies that will help you achieve a comprehensive understanding of the subject matter."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 2,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12,
+                                            "widget": {
+                                                "column_id": 103,
+                                                "type": "quiz",
+                                                "widget_order": 1,
+                                                "is_required": true,
+                                                "quiz_id": 2
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "row_order": 3,
+                                    "columns": [
+                                        {
+                                            "column_order": 1,
+                                            "width": 12
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

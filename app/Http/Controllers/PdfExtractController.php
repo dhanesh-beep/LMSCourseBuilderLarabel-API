@@ -48,145 +48,145 @@ class PdfExtractController extends ResponseController
             $inputTokens = $this->countTokens($cleaned);
             $startTime = microtime(true);
             $flowiseStart = Carbon::now();
-
-            //-------------------------------------------------------------------------------------------
-            // 1- 🧩 Flowise Call- for Quiz Creation
-            $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
             $apiHost = env('FLOWISE_API_HOST');
 
-            $response = Http::timeout(env('FLOWISE_TIMEOUT', 900))
-                ->connectTimeout(env('FLOWISE_CONNECT_TIMEOUT', 60))
-                ->post("$apiHost/api/v1/prediction/$chatflowId1", [
-                    'question' => $cleaned,
-                ]);
+            // //-------------------------------------------------------------------------------------------
+            // // 1- 🧩 Flowise Call- for Quiz Creation
+            // $chatflowId1 = env('FLOWISE_AGENTFLOW_ID_QUIZ');
 
-            // $response = Http::timeout(900)
-            //     ->connectTimeout(60)
+            // $response = Http::timeout(env('FLOWISE_TIMEOUT', 900))
+            //     ->connectTimeout(env('FLOWISE_CONNECT_TIMEOUT', 60))
             //     ->post("$apiHost/api/v1/prediction/$chatflowId1", [
             //         'question' => $cleaned,
             //     ]);
-                
-            #$flowiseEnd = Carbon::now();
 
-            if ($response->failed()) {
-                return response()->json([
-                    'error' => 'Flowise API call failed',
-                    'details' => $response->body(),
-                ], $response->status());
-            }
 
-            $flowiseData = json_decode($response->body(), true);
-            $textResponse = $flowiseData['text'] ?? $response->body();
-            $decoded = json_decode($textResponse, true);
+            // if ($response->failed()) {
+            //     return response()->json([
+            //         'error' => 'Flowise API call failed',
+            //         'details' => $response->body(),
+            //     ], $response->status());
+            // }
 
-            // keep full quiz_answer array (if present) for returning the full JSON
-            $quizFull = $decoded['quiz_answer'] ?? null;
-            // keep existing $quiz for downstream processing (first element or fallback)
-            $quiz = $decoded['quiz_answer'][0] ?? $decoded ?? $textResponse;
-            $quiz1 = $quiz;
+            // $flowiseData = json_decode($response->body(), true);
+            // $textResponse = $flowiseData['text'] ?? $response->body();
+            // $decoded = json_decode($textResponse, true);
 
-            $responseData1 = $quiz['data'];  // quizzes array
-            $responseData = $quiz['data']['quizzes'];  // quizzes array
+            // // keep full quiz_answer array (if present) for returning the full JSON
+            // $quizFull = $decoded['quiz_answer'] ?? null;
+            // // keep existing $quiz for downstream processing (first element or fallback)
+            // $quiz = $decoded['quiz_answer'][0] ?? $decoded ?? $textResponse;
+            // $quiz1 = $quiz;
 
-            $quizIds = [];
-            $quizTitles      = [];
-            $questionCounts  = [];                       // per-quiz question count
-            $quizCounts = 0;                  // collect quiz titles as an array
-            $ADD_QUIZ_ID_NUMBER = 0;
-            $quizTextAccumulator = "";
-            $totalTypeCount  = [ "single" => 0, "multiple" => 0 ];  // aggregated
+            // $responseData1 = $quiz['data'];  // quizzes array
+            // $responseData = $quiz['data']['quizzes'];  // quizzes array
 
-            foreach ($responseData as $index => $data) {
-                $quizCounts++;
-                // Create the quiz
-                $quiz = Quiz::create([
-                    'title'         => $data['title'],
-                    'passing_score' => $data['passing_score'] ?? 0,
-                    'description'   => $data['description'] ?? null,
-                    'author'        => $data['author'] ?? null,
-                ]);
+            // $quizIds = [];
+            // $quizTitles      = [];
+            // $questionCounts  = [];                       // per-quiz question count
+            // $quizCounts = 0;                  // collect quiz titles as an array
+            // $ADD_QUIZ_ID_NUMBER = 0;
+            // $quizTextAccumulator = "";
+            // $totalTypeCount  = [ "single" => 0, "multiple" => 0 ];  // aggregated
 
-                $qc = count($data['questions']);
-                $questionCounts[] = $qc;
-                // collect text for token calculation
-                $quizTextAccumulator .= $data['title'] . " ";
-                $quizTextAccumulator .= strip_tags($data['description']) . " ";
-                // Loop through questions
-                foreach ($data['questions'] as $q) {
-                    // accumulate question text
-                    $quizTextAccumulator .= $q['question_title'] . " ";
-                    // count question type
-                    if ($q['question_type'] === "single") {
-                        $totalTypeCount["single"]++;
-                    } elseif ($q['question_type'] === "multiple") {
-                        $totalTypeCount["multiple"]++;
-                    }
-                    $question = QuizQuestion::create([
-                        'quiz_id'        => $quiz->id,
-                        'question_title' => $q['question_title'],
-                        'question_type'  => $q['question_type'],
-                        'question_order' => $q['question_order']
-                    ]);
+            // foreach ($responseData as $index => $data) {
+            //     $quizCounts++;
+            //     // Create the quiz
+            //     $quiz = Quiz::create([
+            //         'title'         => $data['title'],
+            //         'passing_score' => $data['passing_score'] ?? 0,
+            //         'description'   => $data['description'] ?? null,
+            //         'author'        => $data['author'] ?? null,
+            //     ]);
 
-                    // Loop through options
-                    foreach ($q['options'] as $opt) {
-                        $quizTextAccumulator .= $opt['option_text'] . " ";
-                        QuizQuestionOption::create([
-                            'question_id' => $question->id,
-                            'option_text' => $opt['option_text'],
-                            'is_correct'  => $opt['is_correct'],
-                        ]);
-                    }
-                }
+            //     $qc = count($data['questions']);
+            //     $questionCounts[] = $qc;
+            //     // collect text for token calculation
+            //     $quizTextAccumulator .= $data['title'] . " ";
+            //     $quizTextAccumulator .= strip_tags($data['description']) . " ";
+            //     // Loop through questions
+            //     foreach ($data['questions'] as $q) {
+            //         // accumulate question text
+            //         $quizTextAccumulator .= $q['question_title'] . " ";
+            //         // count question type
+            //         if ($q['question_type'] === "single") {
+            //             $totalTypeCount["single"]++;
+            //         } elseif ($q['question_type'] === "multiple") {
+            //             $totalTypeCount["multiple"]++;
+            //         }
+            //         $question = QuizQuestion::create([
+            //             'quiz_id'        => $quiz->id,
+            //             'question_title' => $q['question_title'],
+            //             'question_type'  => $q['question_type'],
+            //             'question_order' => $q['question_order']
+            //         ]);
 
-                $quizIds[] = $quiz->id;
-                $quizTitles[] = $quiz->title;
+            //         // Loop through options
+            //         foreach ($q['options'] as $opt) {
+            //             $quizTextAccumulator .= $opt['option_text'] . " ";
+            //             QuizQuestionOption::create([
+            //                 'question_id' => $question->id,
+            //                 'option_text' => $opt['option_text'],
+            //                 'is_correct'  => $opt['is_correct'],
+            //             ]);
+            //         }
+            //     }
 
-                 if ($index == 0){
-                    $ADD_QUIZ_ID_NUMBER = $quiz->id;
-                }
-            }
+            //     $quizIds[] = $quiz->id;
+            //     $quizTitles[] = $quiz->title;
 
-            // -------------------------------
-            // COUNT QUIZ TOKENS
-            // -------------------------------
-            $Count_quiz_token = $this->countTokens($quizTextAccumulator);
+            //      if ($index == 0){
+            //         $ADD_QUIZ_ID_NUMBER = $quiz->id;
+            //     }
+            // }
 
-            // ==========================================
-            // 🎯 Extract Quiz Evaluation Matrix
-            // ==========================================
-            $quizEvaluation = $quiz1['quiz_evaluation_matrix'] ?? null;
-            // Default values if matrix missing
-            $q_grounding_score          = $quizEvaluation['grounding_score']          ?? 0;
-            $q_accuracyScore            = $quizEvaluation['accuracy_score']           ?? 0;
-            $q_contextTokenOverlap      = $quizEvaluation['context_token_overlap']    ?? 0;
-            $q_response_length_balance  = $quizEvaluation['response_length_score']    ?? 0;
-            $q_relevance_score          = $quizEvaluation['relevance_score']          ?? 0;
-            $q_evaluationSummary        = $quizEvaluation['evaluation_summary']       ?? 'No summary available';
+            // // -------------------------------
+            // // COUNT QUIZ TOKENS
+            // // -------------------------------
+            // $Count_quiz_token = $this->countTokens($quizTextAccumulator);
 
-            // Example: Add this to your overall log payload
-            // $matrixLogs['quiz_evaluation_matrix'] = $quizEvaluationMatrix;
+            // // ==========================================
+            // // 🎯 Extract Quiz Evaluation Matrix
+            // // ==========================================
+            // $quizEvaluation = $quiz1['quiz_evaluation_matrix'] ?? null;
+            // // Default values if matrix missing
+            // $q_grounding_score          = $quizEvaluation['grounding_score']          ?? 0;
+            // $q_accuracyScore            = $quizEvaluation['accuracy_score']           ?? 0;
+            // $q_contextTokenOverlap      = $quizEvaluation['context_token_overlap']    ?? 0;
+            // $q_response_length_balance  = $quizEvaluation['response_length_score']    ?? 0;
+            // $q_relevance_score          = $quizEvaluation['relevance_score']          ?? 0;
+            // $q_evaluationSummary        = $quizEvaluation['evaluation_summary']       ?? 'No summary available';
 
-            // LOGGING
-            Log::info("QUIZ_ANALYSIS", [
-                "quiz_counts"        => $quizCounts,
-                "quiz_ids"           => $quizIds,
-                "quiz_titles"        => $quizTitles,
-                "question_counts"    => $questionCounts,
-                "total_type_count"   => $totalTypeCount,
-                "Count_quiz_token"   => $Count_quiz_token,
-                "q_grounding_score"          => $q_grounding_score,
-                "q_accuracyScore"           => $q_accuracyScore,
-                "q_contextTokenOverlap"     => $q_contextTokenOverlap,
-                "q_response_length_balance" => $q_response_length_balance,
-                "q_relevance_score"         => $q_relevance_score,
-                "q_evaluationSummary"      => $q_evaluationSummary,
-            ]);
+            // // Example: Add this to your overall log payload
+            // // $matrixLogs['quiz_evaluation_matrix'] = $quizEvaluationMatrix;
+
+            // // LOGGING
+            // Log::info("QUIZ_ANALYSIS", [
+            //     "quiz_counts"        => $quizCounts,
+            //     "quiz_ids"           => $quizIds,
+            //     "quiz_titles"        => $quizTitles,
+            //     "question_counts"    => $questionCounts,
+            //     "total_type_count"   => $totalTypeCount,
+            //     "Count_quiz_token"   => $Count_quiz_token,
+            //     "q_grounding_score"          => $q_grounding_score,
+            //     "q_accuracyScore"           => $q_accuracyScore,
+            //     "q_contextTokenOverlap"     => $q_contextTokenOverlap,
+            //     "q_response_length_balance" => $q_response_length_balance,
+            //     "q_relevance_score"         => $q_relevance_score,
+            //     "q_evaluationSummary"      => $q_evaluationSummary,
+            // ]);
 
             //==================================Dynamic Start Quiz ID ADDTION Logic==========================================
             // $start_quiz_id_prompt = "END of user Text.\n\n\n Generate Total Lesson_Counts={$quizCounts} lessons for this course using the provided Lesson titles List ={$quizTitles} \n\n\n , also use the ADD_QUIZ_ID_number={$ADD_QUIZ_ID_NUMBER} to add the quiz ids to the lessons";
             // Before building the prompt
+            // $quizTitlesString = implode(' | ', $quizTitles);   // or json_encode($quizTitles)
+
+            //DUMMY DATA FOR TESTING     
+            $quizCounts = 3;
+            $quizTitles = ["Who use Policy relates to","what is the purpose of the policy","what are the consequences of non-compliance"];
+            $ADD_QUIZ_ID_NUMBER = 1;
             $quizTitlesString = implode(' | ', $quizTitles);   // or json_encode($quizTitles)
+
 
             // Build the prompt safely
             $start_quiz_id_prompt = "END of user Text.\n\n\n "
@@ -223,10 +223,12 @@ class PdfExtractController extends ResponseController
             $decoded = json_decode($textResponse, true);
 
             $course = $decoded['answer'][0] ?? $decoded ?? $textResponse;
+            
+            // Handle new structure: extract body if it exists, otherwise use course as-is
+            $courseBody = $course['body'] ?? $course;
             $outputTokens = $this->countTokens(json_encode($course));
 
-            // Safely extract evaluation_matrix from several possible response shapes
-            $evaluation_matrix = [];
+            // $evaluation_matrix = $decoded['evaluation_matrix'][0] ?? $decoded['evaluation_matrix'] ?? $course;
 
             // 1) top-level 'evaluation_matrix'
             if (isset($decoded['evaluation_matrix']) && is_array($decoded['evaluation_matrix'])) {
@@ -290,34 +292,42 @@ class PdfExtractController extends ResponseController
             $overall_score = $evaluation_matrix['overall_score'] ?? null;
             $justification = $evaluation_matrix['justification'] ?? 'No justification';
 
-            # Course Creation related Items calculation
-            $lessons = count($course['lessons'] ?? []);
-            $sections = collect($course['lessons'] ?? [])->sum(fn($l) => count($l['sections'] ?? []));
-            $widgets = collect($course['lessons'] ?? [])->sum(function ($lesson) {
-                return collect($lesson['sections'] ?? [])->sum(function ($section) {
-                    return collect($section['rows'] ?? [])->sum(function ($row) {
-                        return collect($row['columns'] ?? [])->sum(function ($column) {
-                            return count($column['widgets'] ?? []);
+            # Course Creation related Items calculation - Updated for new structure: body -> topics -> lessons -> sections -> rows -> columns -> widget
+            $topics = $courseBody['topics'] ?? [];
+            $lessons = collect($topics)->sum(fn($topic) => count($topic['lessons'] ?? []));
+            $sections = collect($topics)->sum(function ($topic) {
+                return collect($topic['lessons'] ?? [])->sum(fn($lesson) => count($lesson['sections'] ?? []));
+            });
+            $widgets = collect($topics)->sum(function ($topic) {
+                return collect($topic['lessons'] ?? [])->sum(function ($lesson) {
+                    return collect($lesson['sections'] ?? [])->sum(function ($section) {
+                        return collect($section['rows'] ?? [])->sum(function ($row) {
+                            return collect($row['columns'] ?? [])->sum(function ($column) {
+                                // Widget is now singular, not plural
+                                return isset($column['widget']) ? 1 : 0;
+                            });
                         });
                     });
                 });
             });
 
-            //  Count image widgets (from Flowise JSON)
-            $imageWidgets = collect($course['lessons'] ?? [])->sum(function ($lesson) {
-                return collect($lesson['sections'] ?? [])->sum(function ($section) {
-                    return collect($section['rows'] ?? [])->sum(function ($row) {
-                        return collect($row['columns'] ?? [])->sum(function ($column) {
-                            return collect($column['widgets'] ?? [])
-                                ->where('type', 'image')
-                                ->count();
+            //  Count image widgets (from Flowise JSON) - Updated for new structure
+            $imageWidgets = collect($topics)->sum(function ($topic) {
+                return collect($topic['lessons'] ?? [])->sum(function ($lesson) {
+                    return collect($lesson['sections'] ?? [])->sum(function ($section) {
+                        return collect($section['rows'] ?? [])->sum(function ($row) {
+                            return collect($row['columns'] ?? [])->sum(function ($column) {
+                                // Widget is now singular, check if it exists and is type 'image'
+                                return isset($column['widget']) && ($column['widget']['type'] ?? null) === 'image' ? 1 : 0;
+                            });
                         });
                     });
                 });
             });
 
             $totalImageCount = $pdfImageCount + $imageWidgets;
-            $courseTitle = $course['title'] ?? 'Untitled Course';
+            // Extract course title - check in body or at top level
+            $courseTitle = $courseBody['title'] ?? $course['title'] ?? 'Untitled Course';
             // 🧾 Extract PDF file name (without extension)
             $pdfFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $duration = round(microtime(true) - $startTime, 2);
@@ -331,26 +341,26 @@ class PdfExtractController extends ResponseController
                 'duration_sec' => $duration,
                 'PDF_pages_Counts' => $pageCount,
                 'input_tokens' => $inputTokens,
-                'output_tokens' => $outputTokens+$Count_quiz_token,
-                'total_tokens' => $inputTokens + $outputTokens + $Count_quiz_token,
+                // 'output_tokens' => $outputTokens+$Count_quiz_token,
+                // 'total_tokens' => $inputTokens + $outputTokens + $Count_quiz_token,
                 'total_lessons' => $lessons,
                 'total_sections' => $sections,
                 'total_widgets' => $widgets,
                 'Image_counts' => $totalImageCount,
-                #quiz info
-                'quiz_count' => $quizCounts,
-                'quiz_ids' => implode('|', $quizIds),
-                'quiz_question_counts' => implode('|', $questionCounts),   //   $questionCountList
-                'quiz_single_count' => $totalTypeCount['single'],
-                'quiz_multiple_count' => $totalTypeCount['multiple'],
-                'quiz_titles' => $quizTitlesString,   // already a string
-                #quiz performance
-                'q_grounding_score' => $q_grounding_score,
-                'q_accuracyScore' => $q_accuracyScore,
-                'q_contextTokenOverlap' => $q_contextTokenOverlap,
-                'q_response_length_balance' => $q_response_length_balance,
-                'q_relevance_score' => $q_relevance_score,
-                'q_evaluationSummary'  => $q_evaluationSummary,
+                // #quiz info
+                // 'quiz_count' => $quizCounts,
+                // 'quiz_ids' => implode('|', $quizIds),
+                // 'quiz_question_counts' => implode('|', $questionCounts),   //   $questionCountList
+                // 'quiz_single_count' => $totalTypeCount['single'],
+                // 'quiz_multiple_count' => $totalTypeCount['multiple'],
+                // 'quiz_titles' => $quizTitlesString,   // already a string
+                // #quiz performance
+                // 'q_grounding_score' => $q_grounding_score,
+                // 'q_accuracyScore' => $q_accuracyScore,
+                // 'q_contextTokenOverlap' => $q_contextTokenOverlap,
+                // 'q_response_length_balance' => $q_response_length_balance,
+                // 'q_relevance_score' => $q_relevance_score,
+                // 'q_evaluationSummary'  => $q_evaluationSummary,
                 #Course Builder Performance
                 'grounding_score' => $grounding_score,
                 'completeness_score' => $completeness_score,
@@ -360,13 +370,19 @@ class PdfExtractController extends ResponseController
                 'justification'  => $justification,
             ];
 
-            $this->logToCSV($metrics);
-            $this->logToWandb($metrics);
+            Log::info('Metrics', [
+                'metrics' => $metrics,
+            ]);
+            // $this->logToCSV($metrics);
+            // $this->logToWandb($metrics);
 
+            // Return structure: if course already has 'body' wrapper, use it; otherwise wrap courseBody
+            $returnCourse = isset($course['body']) ? $course : ['body' => $courseBody];
+            
             return response()->json([
-                'quiz'=> $quiz1,     //     responseData1
-                'body' => $course,
-                'meta' => $metrics,
+                // 'quiz'=> $quiz1,     //     responseData1
+                'body' => $returnCourse['body'],
+                // 'meta' => $metrics,
             ], 200, [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         } catch (\Throwable $e) {
             Log::error('Flowise API Exception', ['message' => $e->getMessage()]);

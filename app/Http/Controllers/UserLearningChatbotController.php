@@ -122,10 +122,11 @@ class UserLearningChatbotController extends ResponseController
     public function n8nChatbot(Request $request): JsonResponse
     {
         try {
-            $N8N_CLOUD_WEBHOOK_URL = env('N8N_CLOUD_WEBHOOK_URL');
+            // $N8N_WEBHOOK_URL = env('N8N_CLOUD_WEBHOOK_URL');
+            $N8N_WEBHOOK_URL = env('N8N_LOCAL_HOSTED_WEBHOOK_URL');
 
             // 1. Validate N8N webhook URL is configured
-            if (empty($N8N_CLOUD_WEBHOOK_URL)) {
+            if (empty($N8N_WEBHOOK_URL)) {
                 Log::error('N8N webhook URL not configured');
                 return response()->json([
                     'error' => 'Chatbot service is not configured. Please contact administrator.'
@@ -141,7 +142,7 @@ class UserLearningChatbotController extends ResponseController
 
             Log::info('N8N Chatbot Request', [
                 'user_question' => $userQuestion,
-                'webhook_url' => $N8N_CLOUD_WEBHOOK_URL
+                'webhook_url' => $N8N_WEBHOOK_URL
             ]);
 
             // 3. Call n8n Cloud Webhook with proper timeout and retry
@@ -153,7 +154,7 @@ class UserLearningChatbotController extends ResponseController
                     'Content-Type' => 'application/json',
                     'Accept' => 'text/plain, application/json'
                 ])
-                ->post($N8N_CLOUD_WEBHOOK_URL, [
+                ->post($N8N_WEBHOOK_URL, [
                     'query' => $userQuestion
                 ]);
 
@@ -166,7 +167,7 @@ class UserLearningChatbotController extends ResponseController
                     'status' => $statusCode,
                     'response_body' => $responseBody,
                     'user_question' => $userQuestion,
-                    'webhook_url' => $N8N_CLOUD_WEBHOOK_URL
+                    'webhook_url' => $N8N_WEBHOOK_URL
                 ]);
 
                 // Handle specific error cases
@@ -178,7 +179,7 @@ class UserLearningChatbotController extends ResponseController
                         'error' => 'Webhook not found',
                         'message' => 'The chatbot webhook is not registered or the URL is incorrect.',
                         'details' => $errorMessage,
-                        'hint' => 'Please verify your N8N_CLOUD_WEBHOOK_URL in the .env file and ensure the webhook exists in your n8n instance.'
+                        'hint' => 'Please verify your N8N_WEBHOOK_URL in the .env file and ensure the webhook exists in your n8n instance.'
                     ], 404);
                 }
 

@@ -1,64 +1,50 @@
 import json
-import re
 
-# Read the malformed JSON file
-with open('IT_policy_Course_cleaned.json', 'r', encoding='utf-8') as f:
-    lines = f.readlines()
+def remove_keys_recursive(obj, keys_to_remove):
+    """Recursively remove specified keys from a dictionary or list"""
+    if isinstance(obj, dict):
+        # Remove the specified keys
+        for key in keys_to_remove:
+            obj.pop(key, None)
+        # Recursively process all values
+        for value in obj.values():
+            remove_keys_recursive(value, keys_to_remove)
+    elif isinstance(obj, list):
+        # Recursively process all items in the list
+        for item in obj:
+            remove_keys_recursive(item, keys_to_remove)
 
-print("Processing JSON file...")
-print(f"Total lines: {len(lines)}")
+def remove_widgets_by_type(obj):
+    """Remove widget keys from columns where type is not 'text' or 'quiz'"""
+    if isinstance(obj, dict):
+        # Check if this is a column with a widget
+        if 'columns' in obj:
+            for column in obj['columns']:
+                if 'widget' in column:
+                    widget_type = column['widget'].get('type')
+                    if widget_type not in ['text', 'quiz']:
+                        del column['widget']
+        
+        # Recursively process all values
+        for value in obj.values():
+            remove_widgets_by_type(value)
+    elif isinstance(obj, list):
+        # Recursively process all items in the list
+        for item in obj:
+            remove_widgets_by_type(item)
 
-# Extract all meaningful text content
-text_parts = []
+# Read the JSON file
+with open('VALID_COURSE.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 
-for line in lines:
-    line = line.strip()
+# Remove all 'id' and 'widget_counts' keys
+remove_keys_recursive(data, ['id', 'widget_counts'])
 
-    # Skip empty lines and structural JSON characters
-    if not line or line in ['{', '}', '']:
-        continue
+# Remove widgets that are not 'text' or 'quiz' type
+remove_widgets_by_type(data)
 
-    # Remove leading/trailing quotes and commas
-    line = re.sub(r'^["\s]*,?\s*', '', line)
-    line = re.sub(r'\s*,?\s*["\s]*$', '', line)
+# Write the cleaned JSON back
+with open('VALID_COURSE.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, indent=4, ensure_ascii=False)
 
-    # Skip if it's just a key without meaningful content
-    if re.match(r'^description\d*$', line.lower()):
-        continue
-
-    # Skip very short strings
-    if len(line) < 5:
-        continue
-
-    # Clean up extra whitespace
-    line = re.sub(r'\s+', ' ', line).strip()
-
-    if line:
-        text_parts.append(line)
-
-print(f"Extracted {len(text_parts)} text parts")
-
-# Combine all text into a single paragraph
-combined_text = ' '.join(text_parts)
-
-# Clean up any remaining formatting issues
-combined_text = re.sub(r'\s+', ' ', combined_text).strip()
-
-# Create the cleaned structure
-cleaned_data = {
-    "course_details": combined_text
-}
-
-# Write back to file
-with open('IT_policy_Course_cleaned.json', 'w', encoding='utf-8') as f:
-    json.dump(cleaned_data, f, indent=2, ensure_ascii=False)
-
-print("✅ JSON file cleaned successfully!")
-print(f"Combined text length: {len(combined_text)} characters")
-print()
-print("First 500 characters of combined text:")
-print(combined_text[:500] + "...")
-print()
-print("Sample text parts extracted:")
-for i, part in enumerate(text_parts[:3]):
-    print(f"{i+1}: {part[:100]}...")
+print("JSON cleaned successfully!")
