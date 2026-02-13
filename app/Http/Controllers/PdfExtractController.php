@@ -182,11 +182,10 @@ class PdfExtractController extends ResponseController
             // $quizTitlesString = implode(' | ', $quizTitles);   // or json_encode($quizTitles)
 
             //DUMMY DATA FOR TESTING     
-            $quizCounts = 3;
-            $quizTitles = ["Who use Policy relates to","what is the purpose of the policy","what are the consequences of non-compliance"];
+            $quizCounts = 2;
+            $quizTitles = ["Why we have this Policy","Who this Policy relates to"];
             $ADD_QUIZ_ID_NUMBER = 1;
             $quizTitlesString = implode(' | ', $quizTitles);   // or json_encode($quizTitles)
-
 
             // Build the prompt safely
             $start_quiz_id_prompt = "END of user Text.\n\n\n "
@@ -292,7 +291,7 @@ class PdfExtractController extends ResponseController
             $overall_score = $evaluation_matrix['overall_score'] ?? null;
             $justification = $evaluation_matrix['justification'] ?? 'No justification';
 
-            # Course Creation related Items calculation - Updated for new structure: body -> topics -> lessons -> sections -> rows -> columns -> widget
+            # Course Creation related Items calculation - Updated for new structure: body -> topics -> lessons -> sections -> rows -> columns -> widgets (array)
             $topics = $courseBody['topics'] ?? [];
             $lessons = collect($topics)->sum(fn($topic) => count($topic['lessons'] ?? []));
             $sections = collect($topics)->sum(function ($topic) {
@@ -300,25 +299,27 @@ class PdfExtractController extends ResponseController
             });
             $widgets = collect($topics)->sum(function ($topic) {
                 return collect($topic['lessons'] ?? [])->sum(function ($lesson) {
-                    return collect($lesson['sections'] ?? [])->sum(function ($section) {
-                        return collect($section['rows'] ?? [])->sum(function ($row) {
-                            return collect($row['columns'] ?? [])->sum(function ($column) {
-                                // Widget is now singular, not plural
-                                return isset($column['widget']) ? 1 : 0;
+                return collect($lesson['sections'] ?? [])->sum(function ($section) {
+                    return collect($section['rows'] ?? [])->sum(function ($row) {
+                        return collect($row['columns'] ?? [])->sum(function ($column) {
+                                // Widgets is now an array, count all widgets in the array
+                            return count($column['widgets'] ?? []);
                             });
                         });
                     });
                 });
             });
 
-            //  Count image widgets (from Flowise JSON) - Updated for new structure
+            //  Count image widgets (from Flowise JSON) - Updated for new structure with widgets as array
             $imageWidgets = collect($topics)->sum(function ($topic) {
                 return collect($topic['lessons'] ?? [])->sum(function ($lesson) {
-                    return collect($lesson['sections'] ?? [])->sum(function ($section) {
-                        return collect($section['rows'] ?? [])->sum(function ($row) {
-                            return collect($row['columns'] ?? [])->sum(function ($column) {
-                                // Widget is now singular, check if it exists and is type 'image'
-                                return isset($column['widget']) && ($column['widget']['type'] ?? null) === 'image' ? 1 : 0;
+                return collect($lesson['sections'] ?? [])->sum(function ($section) {
+                    return collect($section['rows'] ?? [])->sum(function ($row) {
+                        return collect($row['columns'] ?? [])->sum(function ($column) {
+                                // Widgets is now an array, count widgets with type 'image'
+                            return collect($column['widgets'] ?? [])
+                                ->where('type', 'image')
+                                ->count();
                             });
                         });
                     });
@@ -334,12 +335,12 @@ class PdfExtractController extends ResponseController
 
             #🪶 Prepare metrics
             $metrics = [
-                'requested_from' => "Backend_API_Client",     //for Website/UI use - Website_AI_API_Client
+                'requested_from' => "Developer_Testing_API_Client",     //for Website/UI use - Website_AI_API_Client
                 'timestamp' => now()->toDateTimeString(),
                 'pdf_file_name' => $pdfFileName,
                 'Course_title' => $courseTitle,
                 'duration_sec' => $duration,
-                'PDF_pages_Counts' => $pageCount,
+                'pdf_pages_counts' => $pageCount,
                 'input_tokens' => $inputTokens,
                 // 'output_tokens' => $outputTokens+$Count_quiz_token,
                 // 'total_tokens' => $inputTokens + $outputTokens + $Count_quiz_token,
@@ -373,12 +374,12 @@ class PdfExtractController extends ResponseController
             Log::info('Metrics', [
                 'metrics' => $metrics,
             ]);
-            // $this->logToCSV($metrics);
-            // $this->logToWandb($metrics);
+            $this->logToCSV($metrics);
+            $this->logToWandb($metrics);
 
             // Return structure: if course already has 'body' wrapper, use it; otherwise wrap courseBody
             $returnCourse = isset($course['body']) ? $course : ['body' => $courseBody];
-            
+
             return response()->json([
                 // 'quiz'=> $quiz1,     //     responseData1
                 'body' => $returnCourse['body'],
@@ -468,7 +469,6 @@ class PdfExtractController extends ResponseController
             Log::error("W&B logging failed: " . $e->getMessage());
         }
     }
-
     /****************************************END CHATBOT COURSE BUILDER END POINTS****************************************/
 }   
 
