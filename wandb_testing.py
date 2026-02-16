@@ -255,7 +255,7 @@ if __name__ == "__main__":
 # import os
 # import pandas as pd
 
-# API_KEY = "9a2dd71fea975e82e9f4efcf5cabe5ded3b52326"
+# API_KEY = "API_KEY"
 # PROJECT_NAME = "Flowise_LLM_Course_Builder"
 
 # df=pd.read_csv("Course_Builder_LLM_Analysis.csv",delimiter=";")
