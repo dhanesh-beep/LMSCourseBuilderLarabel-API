@@ -10,7 +10,7 @@ import ollama
 from dynamic_text_loader import load_course_details
 
 #----------------- Configuration----------------
-PINECONE_API_KEY = "pcsk_4y6VRK_77QymMYerdAjm3AeS7sBt2798VV15YDvBzCD1PCsTZMrq7BQa9V45f4ovxkqrQ7"
+PINECONE_API_KEY = "PINECONE_API_KEY"
 # INDEX_NAME = "lms-course-chatbot-knowledgebase"
 INDEX_NAME = "lms-course-knowledgebase-v1"
 
