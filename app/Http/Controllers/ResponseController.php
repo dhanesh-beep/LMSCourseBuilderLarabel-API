@@ -40,7 +40,6 @@ class ResponseController extends Controller
         return Response::json($info, self::$HTTP_NOT_FOUND);
     }
 
-
     /**
      * Executes and returns well formatted json of errors
      * that occured during validation

@@ -23,65 +23,12 @@ class PineconeController extends ResponseController
     public function __construct()
     {
         $this->apiKey = env('PINECONE_API_KEY');
-        // $this->indexName = 'lms-course-knowledgebase-v2';   
-        $this->indexName = 'lms-course-knowledgebase-testing'; 
+        $this->indexName = 'production-lms-course-knowledgebase'; 
         $this->region = env('PINECONE_ENV'); // us-east-1
-        // $this->ollamaHost = rtrim(env('OLLAMA_HOST', 'http://localhost:11434'), '/');
         $this->ollamaHost = env('OLLAMA_HOST');
-        // $this->ollamaModel = env('OLLAMA_MODEL', 'mxbai-embed-large:latest');   #Dimention 1024
         $this->ollamaModel = env('OLLAMA_MODEL');   #Dimention 1024
     }
-
-    public function extractCourseText(Request $request): JsonResponse
-    {
-        try {
-            // Get JSON content from file upload or request body
-            if ($request->hasFile('file')) {
-                $jsonString = file_get_contents($request->file('file')->getRealPath());
-            } else {
-                $jsonString = $request->getContent();
-            }
-
-            if (empty($jsonString)) {
-                throw new \Exception('No JSON content provided. Please upload a JSON file or provide JSON in request body.');
-            }
-
-            // Decode JSON string to array
-            $jsonData = json_decode($jsonString, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('Invalid JSON format: ' . json_last_error_msg());
-            }
-
-            if (!isset($jsonData['answer']) || !is_array($jsonData['answer'])) {
-                throw new \Exception('Invalid JSON structure: "answer" key not found or is not an array');
-            }
-
-            // Convert JSON to text using private method
-            $courseText = $this->convertCourseJsonToText($jsonData);
-
-            if (empty($courseText)) {
-                throw new \Exception('No course content found in JSON file');
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'course_text_file' => $courseText,
-                'text_length' => strlen($courseText)
-            ], 200, [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-        } catch (\Exception $e) {
-            Log::error('Extract Course Text Error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
+    
     /* =====================================================
      * 1️⃣ INIT / CHECK / CREATE INDEX
      * ===================================================== */
@@ -161,7 +108,6 @@ class PineconeController extends ResponseController
                     "Create index failed | {$createResponse->status()} | {$createResponse->body()}"
                 );
             }
-
             return response()->json([
                 'status' => 'success',
                 'message' => 'Index created successfully',
@@ -201,15 +147,13 @@ class PineconeController extends ResponseController
         ini_set('memory_limit', '1024M');
 
         try {
-            $courseId = $request->input('course_id');
-            $courseSlug = $request->input('course_slug', '');
             $version = $request->input('doc_version', 'v1');
 
             // Support both text input (legacy) and JSON input (new dual-index semantic chunking)
             $text = $request->input('text');
             $jsonData = $request->input('json_data');
 
-            // Support JSON file upload (similar to extractCourseText)
+            // Support JSON file upload (primary method)
             if ($request->hasFile('file')) {
                 $jsonString = file_get_contents($request->file('file')->getRealPath());
                 $jsonData = json_decode($jsonString, true);
@@ -231,12 +175,37 @@ class PineconeController extends ResponseController
                     }
                 }
 
-                // Validate JSON structure
-                if (!isset($jsonData['answer']) || !is_array($jsonData['answer'])) {
-                    throw new \Exception('Invalid JSON structure: "answer" key not found or is not an array');
+                // Validate JSON wrapper structure - must have status, response, message, data keys
+                if (!isset($jsonData['status']) || !isset($jsonData['response']) || !isset($jsonData['message'])) {
+                    Log::warning('JSON file missing wrapper keys (status/response/message)', [
+                        'keys_found' => array_keys($jsonData)
+                    ]);
                 }
+
+                // Validate JSON structure - check for 'data' key
+                if (!isset($jsonData['data']) || !is_array($jsonData['data'])) {
+                    throw new \Exception('Invalid JSON structure: "data" key not found or is not an array. Expected format: {"status": 200, "response": 200, "message": "...", "data": {...}}');
+                }
+
+                // Extract course_id and course_slug from JSON data
+                $courseId = $jsonData['data']['id'] ?? null;
+                $courseSlug = $jsonData['data']['slug'] ?? '';
+
+                if (empty($courseId)) {
+                    throw new \Exception('course_id (data.id) not found in JSON file');
+                }
+
+                Log::info('Extracted course info from JSON file', [
+                    'course_id' => $courseId,
+                    'course_slug' => $courseSlug,
+                    'json_status' => $jsonData['status'] ?? 'N/A',
+                    'json_message' => $jsonData['message'] ?? 'N/A'
+                ]);
+
             } else {
                 // Legacy text-based chunking
+                $courseId = $request->input('course_id');
+                $courseSlug = $request->input('course_slug', '');
                 $chunkSize = $request->input('chunk_size', 1000);
                 $chunkOverlap = $request->input('chunk_overlap', 100);
 
@@ -244,15 +213,15 @@ class PineconeController extends ResponseController
                 if ($chunkOverlap >= $chunkSize) {
                     throw new \Exception('chunk_overlap must be less than chunk_size');
                 }
-            }
 
-            // Validate required fields
-            if (!$courseId) {
-                throw new \Exception('course_id is required');
+                // Validate required fields for legacy text mode
+                if (!$courseId) {
+                    throw new \Exception('course_id is required for text-based input');
+                }
             }
 
             if (empty($text) && empty($jsonData)) {
-                throw new \Exception('Either text, json_data, or a JSON file upload is required');
+                throw new \Exception('A JSON file upload is required');
             }
 
             // Validate Pinecone configuration
@@ -285,8 +254,8 @@ class PineconeController extends ResponseController
                     throw new \Exception('No course content found in JSON file');
                 }
 
-                $generalIndexName = 'general-course-knowledgebase-testing';
-                $lmsIndexName = 'lms-course-knowledgebase-testing';
+                $generalIndexName = 'production-general-course-knowledgebase';
+                $lmsIndexName = 'production-lms-course-knowledgebase';
 
                 $generalResult = null;
                 $lmsResult = null;
@@ -383,7 +352,7 @@ class PineconeController extends ResponseController
                                 ];
 
                                 // Set text field - include course_slug for general index
-                                if ($this->indexName === 'general-course-knowledgebase_testing') {
+                                if ($this->indexName === 'production-general-course-knowledgebase') {
                                     $metadata['text'] = $courseSlug . "_" . $chunk;
                                 } else {
                                     $metadata['text'] = $chunk;
@@ -465,8 +434,8 @@ class PineconeController extends ResponseController
                 $responseData['message'] = 'Course texts successfully extracted and upserted to dual indexes';
                 $responseData['chunking_strategy'] = 'dual-index-text-based';
                 $responseData['indexes'] = [
-                    'general_index' => 'general-course-knowledgebase_testing',
-                    'lms_index' => 'lms-course-knowledgebase_testing'
+                    'general_index' => 'production-general-course-knowledgebase',
+                    'lms_index' => 'production-lms-course-knowledgebase'
                 ];
                 if (isset($generalResult)) {
                     $responseData['general_index_vectors'] = $generalResult['processed_count'];
@@ -712,143 +681,6 @@ class PineconeController extends ResponseController
 
         } catch (\Exception $e) {
             Log::error('Pinecone Delete Error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /* =====================================================
-     * 6️⃣ QUERY - Search relevant data from Pinecone Vector DB
-     * ===================================================== */
-    public function query(Request $request): JsonResponse
-    {
-        ini_set('max_execution_time', 300);
-
-        try {
-            // Get input parameters (same naming convention as upsert)
-            $userQuery = $request->input('user_query');
-            $courseId = $request->input('course_id');
-            $topK = $request->input('top_k', 3);
-            $version = $request->input('doc_version'); // Optional: filter by specific version
-
-            // Validate required fields
-            if (empty($userQuery)) {
-                throw new \Exception('user_query is required');
-            }
-
-            if (empty($courseId)) {
-                throw new \Exception('course_id is required');
-            }
-
-            Log::info('Pinecone Query: Processing search request', [
-                'user_query' => substr($userQuery, 0, 100), // Log first 100 chars
-                'course_id' => $courseId,
-                'top_k' => $topK,
-                'version' => $version ?? 'all versions'
-            ]);
-
-            // Convert user query to embedding vector
-            $queryVector = $this->generateEmbedding($userQuery);
-
-            if (empty($queryVector)) {
-                throw new \Exception('Failed to generate embedding for user query');
-            }
-
-            // Get the index host (official way per Pinecone docs)
-            $indexHost = $this->getIndexHost();
-            
-            // Fallback: If we can't get host from API, construct it manually
-            if (empty($indexHost)) {
-                Log::warning('Could not retrieve index host from API, using fallback construction', [
-                    'index_name' => $this->indexName,
-                    'region' => $this->region
-                ]);
-                $indexHost = "{$this->indexName}.svc.{$this->region}.pinecone.io";
-            }
-
-            $queryUrl = "https://{$indexHost}/query";
-
-            // Build filter for metadata search
-            $filter = [
-                'course_id' => $courseId
-            ];
-
-            // Add version filter if provided
-            if (!empty($version)) {
-                $filter['version'] = $version;
-            }
-
-            // Build query payload
-            $queryPayload = [
-                'vector' => $queryVector,
-                'topK' => $topK,
-                'includeMetadata' => true,
-                'filter' => $filter
-            ];
-
-            Log::info('Pinecone Query: Sending query request', [
-                'query_url' => $queryUrl,
-                'vector_dimension' => count($queryVector),
-                'filter' => $filter,
-                'top_k' => $topK
-            ]);
-
-            // Query Pinecone (following official Pinecone API format)
-            $response = Http::timeout(60)
-                ->connectTimeout(15)
-                ->retry(2, 1000)
-                ->withHeaders([
-                    'Api-Key' => $this->apiKey,
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'X-Pinecone-Api-Version' => '2025-10'
-                ])->post($queryUrl, $queryPayload);
-
-            if (!$response->successful()) {
-                Log::error('Pinecone query failed', [
-                    'status' => $response->status(),
-                    'response' => $response->body(),
-                    'query_url' => $queryUrl
-                ]);
-                throw new \Exception('Query failed: ' . $response->body());
-            }
-
-            $queryResults = $response->json();
-
-            // Format and return results
-            $formattedResults = [];
-            if (isset($queryResults['matches']) && is_array($queryResults['matches'])) {
-                foreach ($queryResults['matches'] as $match) {
-                    $formattedResults[] = [
-                        'id' => $match['id'] ?? null,
-                        'score' => $match['score'] ?? 0,
-                        'text' => $match['metadata']['text'] ?? '',
-                        'metadata' => $match['metadata'] ?? []
-                    ];
-                }
-            }
-
-            Log::info('Pinecone Query: Results retrieved', [
-                'total_matches' => count($formattedResults),
-                'course_id' => $courseId
-            ]);
-
-            return response()->json([
-                'status' => 'success',
-                'query' => $userQuery,
-                'course_id' => $courseId,
-                'total_results' => count($formattedResults),
-                'results' => $formattedResults
-            ], 200, [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-        } catch (\Exception $e) {
-            Log::error('Pinecone Query Error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
@@ -1268,7 +1100,7 @@ class PineconeController extends ResponseController
                             ];
 
                             // Set text field - include course_slug for general index
-                            if ($indexName === 'general-course-knowledgebase-testing') {
+                            if ($indexName === 'production-general-course-knowledgebase') {
                                 $metadata['text'] = "Course_Title: ". $courseSlug . " " . $chunk;
                             } else {
                                 $metadata['text'] = $chunk;
@@ -1369,23 +1201,97 @@ class PineconeController extends ResponseController
         ];
     }
 
+    /**
+     * Safely convert a value to string (handles arrays/objects)
+     */
+    private function safeToString($value): string
+    {
+        if (is_array($value) || is_object($value)) {
+            return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+        return (string) $value;
+    }
+
     private function General_convertCourseJsonToText($jsonInput): string
     {
         $textParts = [];
 
-        foreach ($jsonInput['answer'] as $course) {
-            // Lessons - only titles
-            foreach ($course['lessons'] ?? [] as $lesson) {
+        $course = $jsonInput['data'] ?? [];
 
-                if (!empty($lesson['title'])) {
-                    $textParts[] = $lesson['title'];
+        // =====================================================
+        // 1️⃣ Top-level Course Keys (7 keys)
+        // =====================================================
+
+        // Key 1: data.id (used only for metadata/logs, not included in text)
+        // if (!empty($course['id'])) {
+        //     $textParts[] = "Course ID: " . $this->safeToString($course['id']);
+        // }
+
+        // Key 2: data.title
+        if (!empty($course['title'])) {
+            $textParts[] = "Course Title: " . $this->safeToString($course['title']);
+        }
+
+        // Key 3: data.slug
+        if (!empty($course['slug'])) {
+            $textParts[] = "Course Slug: " . $this->safeToString($course['slug']);
+        }
+
+        // Key 4: data.description
+        if (!empty($course['description'])) {
+            $textParts[] = "Course Description: " . $this->safeToString($course['description']);
+        }
+
+        // Key 5: data.price
+        if (isset($course['price'])) {
+            $textParts[] = "Course Price: " . $this->safeToString($course['price']);
+        }
+
+        // Key 6: data.level
+        if (!empty($course['level'])) {
+            $textParts[] = "Course Level: " . $this->safeToString($course['level']);
+        }
+
+        // Key 7: data.widget_counts
+        if (isset($course['widget_counts'])) {
+            $textParts[] = "Widget Counts: " . $this->safeToString($course['widget_counts']);
+        }
+
+        // =====================================================
+        // 2️⃣ Handle Topics Array (5 nested keys via loop)
+        // =====================================================
+
+        foreach ($course['topics'] ?? [] as $topic) {
+
+            // Key 8: data.topics.course_id (used only for metadata, not included in text - IDs don't help RAG semantic search)
+            // if (!empty($topic['course_id'])) {
+            //     $textParts[] = "Topic Course ID: " . $this->safeToString($topic['course_id']);
+            // }
+
+            // Lessons within each topic
+            foreach ($topic['lessons'] ?? [] as $lesson) {
+
+                // Key 9: data.topics.lessons.lesson_order
+                if (isset($lesson['lesson_order'])) {
+                    $textParts[] = "Lesson Order: " . $this->safeToString($lesson['lesson_order']);
                 }
 
-                // Sections - only titles
+                // Key 10: data.topics.lessons.title
+                if (!empty($lesson['title'])) {
+                    $textParts[] = "Lesson Title: " . $this->safeToString($lesson['title']);
+                }
+
+                // Sections within each lesson
                 foreach ($lesson['sections'] ?? [] as $section) {
 
+                    // Key 11: data.topics.lessons.sections.section_order
+                    if (isset($section['section_order'])) {
+                        $textParts[] = "Section Order: " . $this->safeToString($section['section_order']);
+                    }
+
+                    // Key 12: data.topics.lessons.sections.title
                     if (!empty($section['title'])) {
-                        $textParts[] = $section['title'];
+                        $textParts[] = "Section Title: " . $this->safeToString($section['title']);
                     }
                 }
             }
@@ -1401,47 +1307,93 @@ class PineconeController extends ResponseController
     {
         $textParts = [];
 
-        foreach ($jsonInput['answer'] as $course) {
-        # copurse slag
-            // Course level
-            if (!empty($course['title'])) {
-                $textParts[] = $course['title'];
-            }
+        $course = $jsonInput['data'] ?? [];
 
-            if (!empty($course['description'])) {
-                $textParts[] = $course['description'];
-            }
+        // =====================================================
+        // 1️⃣ LMS Query Chatbot Keys (7 top-level keys)
+        // =====================================================
 
-            // Lessons
-            foreach ($course['lessons'] ?? [] as $lesson) {
+        // Key 1: data.id (used only for metadata/logs, not included in text)
+        // if (!empty($course['id'])) {
+        //     $textParts[] = "Course ID: " . $this->safeToString($course['id']);
+        // }
 
+        // Key 2: data.title
+        if (!empty($course['title'])) {
+            $textParts[] = "Course Title: " . $this->safeToString($course['title']);
+        }
+
+        // Key 3: data.slug
+        if (!empty($course['slug'])) {
+            $textParts[] = "Course Slug: " . $this->safeToString($course['slug']);
+        }
+
+        // Key 4: data.description
+        if (!empty($course['description'])) {
+            $textParts[] = "Course Description: " . $this->safeToString($course['description']);
+        }
+
+        // Key 5: data.price
+        if (isset($course['price'])) {
+            $textParts[] = "Course Price: " . $this->safeToString($course['price']);
+        }
+
+        // Key 6: data.level
+        if (!empty($course['level'])) {
+            $textParts[] = "Course Level: " . $this->safeToString($course['level']);
+        }
+
+        // Key 7: data.widget_counts
+        if (isset($course['widget_counts'])) {
+            $textParts[] = "Widget Counts: " . $this->safeToString($course['widget_counts']);
+        }
+
+        // =====================================================
+        // 2️⃣ Handle Topics Array (7 nested keys via loop)
+        // =====================================================
+
+        foreach ($course['topics'] ?? [] as $topic) {
+
+            // Key 8: data.topics.course_id (used only for metadata, not included in text - IDs don't help RAG semantic search)
+            // if (!empty($topic['course_id'])) {
+            //     $textParts[] = "Topic Course ID: " . $this->safeToString($topic['course_id']);
+            // }
+
+            // Lessons within each topic
+            foreach ($topic['lessons'] ?? [] as $lesson) {
+
+                // Key 9: data.topics.lessons.lesson_order
+                if (isset($lesson['lesson_order'])) {
+                    $textParts[] = "Lesson Order: " . $this->safeToString($lesson['lesson_order']);
+                }
+
+                // Key 10: data.topics.lessons.title
                 if (!empty($lesson['title'])) {
-                    $textParts[] = $lesson['title'];
+                    $textParts[] = "Lesson Title: " . $this->safeToString($lesson['title']);
                 }
 
-                if (!empty($lesson['description'])) {
-                    $textParts[] = $lesson['description'];
-                }
-
-                // Sections
+                // Sections within each lesson
                 foreach ($lesson['sections'] ?? [] as $section) {
 
+                    // Key 11: data.topics.lessons.sections.section_order
+                    if (isset($section['section_order'])) {
+                        $textParts[] = "Section Order: " . $this->safeToString($section['section_order']);
+                    }
+
+                    // Key 12: data.topics.lessons.sections.title
                     if (!empty($section['title'])) {
-                        $textParts[] = $section['title'];
+                        $textParts[] = "Section Title: " . $this->safeToString($section['title']);
                     }
 
-                    if (!empty($section['description'])) {
-                        $textParts[] = $section['description'];
-                    }
-
-                    // Rows → Columns → Widgets
+                    // Rows → Columns → Widget (singular)
                     foreach ($section['rows'] ?? [] as $row) {
                         foreach ($row['columns'] ?? [] as $column) {
-                            foreach ($column['widgets'] ?? [] as $widget) {
 
-                                if (!empty($widget['content'])) {
-                                    $textParts[] = $widget['content'];
-                                }
+                            $widget = $column['widget'] ?? [];
+
+                            // Key 13 & 14: data.topics.lessons.sections.rows.columns.widget.content_url
+                            if (!empty($widget['content_url'])) {
+                                $textParts[] = "Description: " . $this->safeToString($widget['content_url']);
                             }
                         }
                     }
@@ -1455,6 +1407,8 @@ class PineconeController extends ResponseController
         return $course_text_file;
     }
 
+
+    
     /**
      * Create semantic chunks from course JSON based on structure keywords
      * (title, Lesson, description, sections)
@@ -1465,182 +1419,122 @@ class PineconeController extends ResponseController
      * @param string $version The document version
      * @return array Array of chunks with metadata
      */
-    private function createSemanticChunks(array $jsonData, string $courseId, string $courseSlug, string $version): array
-    {
-        $chunks = [];
-        $chunkIndex = 0;
+    // private function createSemanticChunks(array $jsonData, string $courseId, string $courseSlug, string $version): array
+    // {
+    //     $chunks = [];
+    //     $chunkIndex = 0;
 
-        if (!isset($jsonData['answer']) || !is_array($jsonData['answer'])) {
-            throw new \Exception('Invalid JSON structure: "answer" key not found or is not an array');
-        }
+    //     if (!isset($jsonData['answer']) || !is_array($jsonData['answer'])) {
+    //         throw new \Exception('Invalid JSON structure: "answer" key not found or is not an array');
+    //     }
 
-        foreach ($jsonData['answer'] as $courseIndex => $course) {
-            // Course-level chunk (title + description)
-            $courseContent = [];
+    //     foreach ($jsonData['answer'] as $courseIndex => $course) {
+    //         // Course-level chunk (title + description)
+    //         $courseContent = [];
             
-            if (!empty($course['title'])) {
-                $courseContent[] = "Course Title: " . $course['title'];
-            }
+    //         if (!empty($course['title'])) {
+    //             $courseContent[] = "Course Title: " . $course['title'];
+    //         }
             
-            if (!empty($course['description'])) {
-                $courseContent[] = "Course Description: " . $course['description'];
-            }
+    //         if (!empty($course['description'])) {
+    //             $courseContent[] = "Course Description: " . $course['description'];
+    //         }
 
-            if (!empty($courseContent)) {
-                $chunks[] = [
-                    'content' => implode("\n\n", $courseContent),
-                    'metadata' => [
-                        'course_id' => $courseId,
-                        'course_slug' => $courseSlug,
-                        'version' => $version,
-                        'chunk_index' => $chunkIndex++,
-                        'chunk_type' => 'course',
-                        'course_title' => $course['title'] ?? '',
-                        'content_type' => 'course_text'
-                    ]
-                ];
-            }
+    //         if (!empty($courseContent)) {
+    //             $chunks[] = [
+    //                 'content' => implode("\n\n", $courseContent),
+    //                 'metadata' => [
+    //                     'course_id' => $courseId,
+    //                     'course_slug' => $courseSlug,
+    //                     'version' => $version,
+    //                     'chunk_index' => $chunkIndex++,
+    //                     'chunk_type' => 'course',
+    //                     'course_title' => $course['title'] ?? '',
+    //                     'content_type' => 'course_text'
+    //                 ]
+    //             ];
+    //         }
 
-            // Process lessons
-            foreach ($course['lessons'] ?? [] as $lessonIndex => $lesson) {
-                // Lesson-level chunk (title + description)
-                $lessonContent = [];
+    //         // Process lessons
+    //         foreach ($course['lessons'] ?? [] as $lessonIndex => $lesson) {
+    //             // Lesson-level chunk (title + description)
+    //             $lessonContent = [];
                 
-                if (!empty($lesson['title'])) {
-                    $lessonContent[] = "Lesson Title: " . $lesson['title'];
-                }
+    //             if (!empty($lesson['title'])) {
+    //                 $lessonContent[] = "Lesson Title: " . $lesson['title'];
+    //             }
                 
-                if (!empty($lesson['description'])) {
-                    $lessonContent[] = "Lesson Description: " . $lesson['description'];
-                }
+    //             if (!empty($lesson['description'])) {
+    //                 $lessonContent[] = "Lesson Description: " . $lesson['description'];
+    //             }
 
-                if (!empty($lessonContent)) {
-                    $chunks[] = [
-                        'content' => implode("\n\n", $lessonContent),
-                        'metadata' => [
-                            'course_id' => $courseId,
-                            'course_slug' => $courseSlug,
-                            'version' => $version,
-                            'chunk_index' => $chunkIndex++,
-                            'chunk_type' => 'lesson',
-                            'lesson_index' => $lessonIndex,
-                            'lesson_title' => $lesson['title'] ?? '',
-                            'course_title' => $course['title'] ?? '',
-                            'content_type' => 'course_text'
-                        ]
-                    ];
-                }
+    //             if (!empty($lessonContent)) {
+    //                 $chunks[] = [
+    //                     'content' => implode("\n\n", $lessonContent),
+    //                     'metadata' => [
+    //                         'course_id' => $courseId,
+    //                         'course_slug' => $courseSlug,
+    //                         'version' => $version,
+    //                         'chunk_index' => $chunkIndex++,
+    //                         'chunk_type' => 'lesson',
+    //                         'lesson_index' => $lessonIndex,
+    //                         'lesson_title' => $lesson['title'] ?? '',
+    //                         'course_title' => $course['title'] ?? '',
+    //                         'content_type' => 'course_text'
+    //                     ]
+    //                 ];
+    //             }
 
-                // Process sections
-                foreach ($lesson['sections'] ?? [] as $sectionIndex => $section) {
-                    $sectionContent = [];
+    //             // Process sections
+    //             foreach ($lesson['sections'] ?? [] as $sectionIndex => $section) {
+    //                 $sectionContent = [];
                     
-                    if (!empty($section['title'])) {
-                        $sectionContent[] = "Section Title: " . $section['title'];
-                    }
+    //                 if (!empty($section['title'])) {
+    //                     $sectionContent[] = "Section Title: " . $section['title'];
+    //                 }
                     
-                    if (!empty($section['description'])) {
-                        $sectionContent[] = "Section Description: " . $section['description'];
-                    }
+    //                 if (!empty($section['description'])) {
+    //                     $sectionContent[] = "Section Description: " . $section['description'];
+    //                 }
 
-                    // Collect all widget content in this section
-                    $widgetContents = [];
-                    foreach ($section['rows'] ?? [] as $row) {
-                        foreach ($row['columns'] ?? [] as $column) {
-                            foreach ($column['widgets'] ?? [] as $widget) {
-                                if (!empty($widget['content'])) {
-                                    $widgetContents[] = $widget['content'];
-                                }
-                            }
-                        }
-                    }
+    //                 // Collect all widget content in this section
+    //                 $widgetContents = [];
+    //                 foreach ($section['rows'] ?? [] as $row) {
+    //                     foreach ($row['columns'] ?? [] as $column) {
+    //                         foreach ($column['widgets'] ?? [] as $widget) {
+    //                             if (!empty($widget['content'])) {
+    //                                 $widgetContents[] = $widget['content'];
+    //                             }
+    //                         }
+    //                     }
+    //                 }
 
-                    if (!empty($widgetContents)) {
-                        $sectionContent[] = "Content:\n" . implode("\n\n", $widgetContents);
-                    }
+    //                 if (!empty($widgetContents)) {
+    //                     $sectionContent[] = "Content:\n" . implode("\n\n", $widgetContents);
+    //                 }
 
-                    if (!empty($sectionContent)) {
-                        $chunks[] = [
-                            'content' => implode("\n\n", $sectionContent),
-                            'metadata' => [
-                                'course_id' => $courseId,
-                                'course_slug' => $courseSlug,
-                                'version' => $version,
-                                'chunk_index' => $chunkIndex++,
-                                'chunk_type' => 'section',
-                                'lesson_index' => $lessonIndex,
-                                'section_index' => $sectionIndex,
-                                'lesson_title' => $lesson['title'] ?? '',
-                                'section_title' => $section['title'] ?? '',
-                                'course_title' => $course['title'] ?? '',
-                                'content_type' => 'course_text'
-                            ]
-                        ];
-                    }
-                }
-            }
-        }
+    //                 if (!empty($sectionContent)) {
+    //                     $chunks[] = [
+    //                         'content' => implode("\n\n", $sectionContent),
+    //                         'metadata' => [
+    //                             'course_id' => $courseId,
+    //                             'course_slug' => $courseSlug,
+    //                             'version' => $version,
+    //                             'chunk_index' => $chunkIndex++,
+    //                             'chunk_type' => 'section',
+    //                             'lesson_index' => $lessonIndex,
+    //                             'section_index' => $sectionIndex,
+    //                             'lesson_title' => $lesson['title'] ?? '',
+    //                             'section_title' => $section['title'] ?? '',
+    //                             'course_title' => $course['title'] ?? '',
+    //                             'content_type' => 'course_text'
+    //                         ]
+    //                     ];
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        return $chunks;
-    }
-
-    private function convertCourseJsonToText($jsonInput): string
-    {
-        $textParts = [];
-    
-        foreach ($jsonInput['answer'] as $course) {
-        # copurse slag
-            // Course level
-            if (!empty($course['title'])) {
-                $textParts[] = $course['title'];
-            }
-    
-            if (!empty($course['description'])) {
-                $textParts[] = $course['description'];
-            }
-    
-            // Lessons
-            foreach ($course['lessons'] ?? [] as $lesson) {
-    
-                if (!empty($lesson['title'])) {
-                    $textParts[] = $lesson['title'];
-                }
-    
-                if (!empty($lesson['description'])) {
-                    $textParts[] = $lesson['description'];
-                }
-    
-                // Sections
-                foreach ($lesson['sections'] ?? [] as $section) {
-    
-                    if (!empty($section['title'])) {
-                        $textParts[] = $section['title'];
-                    }
-    
-                    if (!empty($section['description'])) {
-                        $textParts[] = $section['description'];
-                    }
-    
-                    // Rows → Columns → Widgets
-                    foreach ($section['rows'] ?? [] as $row) {
-                        foreach ($row['columns'] ?? [] as $column) {
-                            foreach ($column['widgets'] ?? [] as $widget) {
-    
-                                if (!empty($widget['content'])) {
-                                    $textParts[] = $widget['content'];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    
-        // Combine everything into one text block
-        $course_text_file = implode("\n\n", $textParts);
-    
-        return $course_text_file;
-    }
- 
-
+    //     return $chunks;
+    // } 
 }
